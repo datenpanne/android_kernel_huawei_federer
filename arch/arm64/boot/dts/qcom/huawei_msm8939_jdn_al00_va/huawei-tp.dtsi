@@ -1,0 +1,80 @@
+/*< CPM2016032400222 shihuijun 20160324 begin */
+/*Add synaptics new driver "Synaptics DSX I2C V2.0"*/
+/* Open holster flag */
+/*Change i2c frepuence from 100kHZ to 400kHZ*/
+
+
+&tlmm_pinmux {
+	himax_int_pin {
+		qcom,pins = <&gp 13>;
+		qcom,pin-func = <0>;
+		qcom,num-grp-pins = <1>;
+		label = "himax-irq";
+		himax_int_default: himax_int_default {
+			drive-strength = <6>;
+			bias-pull-up;
+		};
+		himax_int_sleep: himax_int_sleep {
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
+};
+
+
+&soc {
+	i2c@78b9000 { /* BLSP1 QUP5 */
+		status = "ok";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		qcom,clk-freq-out = <400000>;
+
+		himax-ts@48 {
+			compatible = "himax,852xf";
+			reg = <0x48>;
+			/*interrupt-parent = <&msmgpio>;*/
+			interrupt-parent = <&msm_gpio>;
+			/*interrupts = <61 0x2>;*/
+			interrupts = <13 0x2008>;
+			/*vdd_ana-supply = <&pm8941_l18>;*/
+			himax,vdd_ana-supply = <&msm_gpio 112 0x0>;
+			/*vcc_i2c-supply = <&pm8941_s3>;*/
+			himax,vcc_i2c-supply = <&msm_gpio 117 0x0>;
+			himax,panel-coords = <0 1200 0 1920>;
+			himax,display-coords = <0 1200 0 1920>;
+			/*himax,irq-gpio = <&msmgpio 61 0x00>;*/
+			/*himax,rst-gpio = <&msmgpio 60 0x00>;*/
+			himax,irq-gpio = <&msm_gpio 13 0x2008>;
+			himax,rst-gpio = <&msm_gpio 12 0x00>;
+			report_type = <1>;
+			pinctrl-names = "int_default","int_sleep";
+			pinctrl-0 = <&himax_int_default>;
+			pinctrl-1 = <&himax_int_sleep>;
+		};
+
+		novatek@01 {
+                        compatible = "novatek,NVT-ts";
+                        reg = <0x01>;
+                        interrupt-parent = <&msm_gpio>;
+                        interrupts = <13 0x2008>;
+                        novatek,irq-gpio = <&msm_gpio 13 0x2008>;
+                        novatek,rst-gpio = <&msm_gpio 12 0x0>;
+                        novatek,vdd-type = <1>;      /* 0:null, 1:gpio, 2:pmu*/
+                        novatek,avdd-type = <1>;     /* 0:null, 1:gpio, 2:pmu*/
+                        novatek,vdd-gpio = <&msm_gpio 112 0x0>;
+                        novatek,avdd-gpio = <&msm_gpio 117 0x0>;
+                };
+	};
+
+	/*To disable gen-vkeys.c probe,avoid generate kobject*/
+	gen-vkeys {
+		compatible = "huawei,gen-vkeys";
+		label = "synaptics_rmi4_i2c";
+		qcom,disp-maxx = <720>;
+		qcom,disp-maxy = <1280>;
+		qcom,panel-maxx = <720>;
+		qcom,panel-maxy = <1369>;
+		qcom,key-codes = <158 172 139>;
+	};
+};
+/* CPM2016032400222 shihuijun 20160324 end >*/

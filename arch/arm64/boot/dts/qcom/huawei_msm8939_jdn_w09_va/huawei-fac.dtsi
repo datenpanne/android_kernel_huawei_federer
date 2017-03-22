@@ -1,0 +1,9 @@
+ / {
+        huawei_fac_info {
+                  compatible = "huawei,hw_fac_info";
+                  fac,product_name = "HUAWEI JDN-W09";
+                  fac,hardware_ver = "SH1JDNW09LM";
+                  fac,software_ver = "MSM8939_JDN_W09_VA";
+                  status = "ok";
+        };
+};

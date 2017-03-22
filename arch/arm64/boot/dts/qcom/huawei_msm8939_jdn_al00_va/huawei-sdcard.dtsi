@@ -1,0 +1,38 @@
+/* < CQ_hw00003919 lichuangchuang 20151124 begin */
+&soc {
+        huawei,huawei-gpio-info {
+                compatible = "huawei-gpio-info";
+                huawei,voltage-active-high;
+        };
+     };
+/* CQ_hw00003919 lichuangchuang 20151124 end > */
+&sdhc_2 {
+	interrupt-map = <0 &intc 0 125 0
+		1 &intc 0 221 0
+		2 &msm_gpio 38 0>;
+	cd-gpios = <&msm_gpio 38 0x0>;
+	/delete-property/ qcom,vdd-always-on;
+	/delete-property/ qcom,vdd-io-always-on;
+	huawei,support-uhs;
+	huawei,sd-irq-wake-lock;
+};
+/* < CQ_hw00003919 lichuangchuang 20151124 begin */
+&tlmm_pinmux {
+	sdhc2_cd_pin {
+		/* < SW00185285 lichuangchuang 20160304 begin */
+		qcom,pins = <&gp 38>;
+		qcom,num-grp-pins = <1>;
+		/* SW00185285 lichuangchuang 20160304 end > */
+		qcom,pin-func = <0>;
+		label = "cd-gpio";
+		sdc2_cd_on: cd_on {
+			drive-strength = <2>;
+			bias-disable;
+		};
+		sdc2_cd_off: cd_off {
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
+};
+/* CQ_hw00003919 lichuangchuang 20151124 end > */

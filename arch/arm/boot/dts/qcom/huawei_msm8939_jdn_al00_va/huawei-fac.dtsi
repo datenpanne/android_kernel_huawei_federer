@@ -1,0 +1,9 @@
+ / {
+        huawei_fac_info {
+                  compatible = "huawei,hw_fac_info";
+                  fac,product_name = "HUAWEI JDN-AL00";
+                  fac,hardware_ver = "SH1JDNAL00LM";
+                  fac,software_ver = "MSM8939_JDN_AL00_VA";
+                  status = "ok";
+        };
+};

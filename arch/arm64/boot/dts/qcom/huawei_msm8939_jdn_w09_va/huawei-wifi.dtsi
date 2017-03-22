@@ -1,0 +1,10 @@
+
+ / {
+        huawei_wifi_info {
+                  compatible = "huawei,hw_wifi_info";
+                  status = "ok";
+                  wifi,chiptype = "2.7";
+                  wifi,pubfile_id = "jdn_w09_va";
+                  wifi,fw_ver = "QCOM_WCN3680B";
+        };
+};
