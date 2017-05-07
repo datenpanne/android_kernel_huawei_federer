@@ -541,7 +541,6 @@ config BALANCE_ANON_FILE_RECLAIM
 config GENERIC_EARLY_IOREMAP
 	bool
 
-#/* < DTS2014112902721 zhaiqi 20141129 begin */
 config DEBUG_VMALLOC
 	bool "Enable VMALLOC debugging support"
 	help
@@ -549,15 +548,6 @@ config DEBUG_VMALLOC
 	  are the PID and the name of the task requesting vmalloc.
 
 	  Disabling these can result in savings in code size.
-#/* DTS2014112902721 zhaiqi 20141129 end > */
-config SHRINK_MEMORY
-	bool "Allow for system-wide shrinking of memory"
-	default n
-	depends on MMU
-	help
-	It enables support for system-wide memory reclaim in one shot using
-	echo 1 > /proc/sys/vm/shrink_memory.
-
 config PROCESS_RECLAIM
 	bool "Enable process reclaim"
 	depends on PROC_FS

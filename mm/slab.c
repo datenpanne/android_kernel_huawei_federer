@@ -129,12 +129,10 @@
 
 #include	"slab.h"
 
-/* DTS2014122903419 qidechun/yantongguang 2015-03-13 begin */ 
 #ifdef CONFIG_DUMP_SLAB_INFO
 #include <linux/module.h>
 #include <linux/srecorder.h>
 #endif
-/* DTS2014122903419 qidechun/yantongguang 2015-03-13 end */ 
 
 /*
  * DEBUG	- 1 for kmem_cache_create() to honour; SLAB_RED_ZONE & SLAB_POISON.
@@ -639,7 +637,6 @@ static void slab_set_debugobj_lock_classes(struct kmem_cache *cachep)
 }
 #endif
 
-/* DTS2014122903419 qidechun/yantongguang 2015-03-13 begin */ 
 #ifdef CONFIG_DUMP_SLAB_INFO
 unsigned long get_slab_mutex(void)
 {
@@ -653,7 +650,6 @@ unsigned long get_slab_caches(void)
 }
 EXPORT_SYMBOL(get_slab_caches);
 #endif
-/* DTS2014122903419 qidechun/yantongguang 2015-03-13 end */ 
 
 static DEFINE_PER_CPU(struct delayed_work, slab_reap_work);
 

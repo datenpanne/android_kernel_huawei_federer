@@ -17,29 +17,21 @@
 #include <linux/fs.h>
 #include <linux/init.h>
 
-/* < DTS2015041705211 zhaiqi 20150417 begin */
 ATOMIC_NOTIFIER_HEAD(show_mem_notifier);
-/* DTS2015041705211 zhaiqi 20150417 end > */
 
 int show_mem_notifier_register(struct notifier_block *nb)
 {
-	/* < DTS2015041705211 zhaiqi 20150417 begin */
 	return atomic_notifier_chain_register(&show_mem_notifier, nb);
-	/* DTS2015041705211 zhaiqi 20150417 end > */
 }
 
 int show_mem_notifier_unregister(struct notifier_block *nb)
 {
-	/* < DTS2015041705211 zhaiqi 20150417 begin */
 	return atomic_notifier_chain_unregister(&show_mem_notifier, nb);
-	/* DTS2015041705211 zhaiqi 20150417 end > */
 }
 
 void show_mem_call_notifiers(void)
 {
-	/* < DTS2015041705211 zhaiqi 20150417 begin */
 	atomic_notifier_call_chain(&show_mem_notifier, 0, NULL);
-	/* DTS2015041705211 zhaiqi 20150417 end > */
 }
 
 static int show_mem_notifier_get(void *dat, u64 *val)

@@ -40,12 +40,10 @@
 #include <linux/swapops.h>
 #include <linux/page_cgroup.h>
 
-/* DTS2014122903419 qidechun/yantongguang 2015-03-13 begin */ 
 #ifdef CONFIG_DUMP_SYS_INFO
 #include <linux/module.h>
 #include <linux/srecorder.h>
 #endif
-/* DTS2014122903419 qidechun/yantongguang 2015-03-13 end */ 
 
 static bool swap_count_continued(struct swap_info_struct *, pgoff_t,
 				 unsigned char);
@@ -53,9 +51,7 @@ static void free_swap_count_continuations(struct swap_info_struct *);
 static sector_t map_swap_entry(swp_entry_t, struct block_device**);
 
 DEFINE_SPINLOCK(swap_lock);
-/* DTS2014122903419 qidechun/yantongguang 2015-03-13 begin */ 
 unsigned int nr_swapfiles;
-/* DTS2014122903419 qidechun/yantongguang 2015-03-13 end */ 
 atomic_long_t nr_swap_pages;
 /* protected with swap_lock. reading in vm_swap_full() doesn't need lock */
 long total_swap_pages;
@@ -77,7 +73,6 @@ static DECLARE_WAIT_QUEUE_HEAD(proc_poll_wait);
 /* Activity counter to indicate that a swapon or swapoff has occurred */
 static atomic_t proc_poll_event = ATOMIC_INIT(0);
 
-/* DTS2014122903419 qidechun/yantongguang 2015-03-13 begin */ 
 #ifdef CONFIG_DUMP_SYS_INFO
 unsigned long get_nr_swapfiles(void)
 {
@@ -97,7 +92,6 @@ unsigned long get_swap_info(void)
 }
 EXPORT_SYMBOL(get_swap_info);
 #endif
-/* DTS2014122903419 qidechun/yantongguang 2015-03-13 end */ 
 
 static inline unsigned char swap_count(unsigned char ent)
 {
@@ -444,7 +438,7 @@ scan:
 		}
 	}
 	offset = si->lowest_bit;
-	while (offset < scan_base) {
+	while (++offset < scan_base) {
 		if (!si->swap_map[offset]) {
 			spin_lock(&si->lock);
 			goto checks;
@@ -458,7 +452,6 @@ scan:
 			cond_resched();
 			latency_ration = LATENCY_LIMIT;
 		}
-		offset++;
 	}
 	spin_lock(&si->lock);
 

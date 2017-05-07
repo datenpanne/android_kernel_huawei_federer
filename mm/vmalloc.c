@@ -274,7 +274,6 @@ LIST_HEAD(vmap_area_list);
 static DEFINE_SPINLOCK(vmap_area_lock);
 static struct rb_root vmap_area_root = RB_ROOT;
 
-/* DTS2014122903419 qidechun/yantongguang 2015-03-13 begin */ 
 #ifdef CONFIG_DUMP_SYS_INFO
 #ifdef CONFIG_MMU
 unsigned long get_vmap_area_lock(void)
@@ -284,7 +283,6 @@ unsigned long get_vmap_area_lock(void)
 EXPORT_SYMBOL(get_vmap_area_lock);
 #endif
 #endif
-/* DTS2014122903419 qidechun/yantongguang 2015-03-13 end */ 
 
 /* The vmap cache globals are protected by vmap_area_lock */
 static struct rb_node *free_vmap_cache;
@@ -1399,12 +1397,10 @@ static void setup_vmalloc_vm(struct vm_struct *vm, struct vmap_area *va,
 	vm->addr = (void *)va->va_start;
 	vm->size = va->va_end - va->va_start;
 	vm->caller = caller;
-	/* < DTS2014112902721 zhaiqi 20141129 begin */
 #ifdef CONFIG_DEBUG_VMALLOC
 	vm->pid = current->pid;
 	vm->task_name = current->comm;
 #endif
-	/* DTS2014112902721 zhaiqi 20141129 end > */
 	va->vm = vm;
 	va->flags |= VM_VM_AREA;
 	spin_unlock(&vmap_area_lock);
@@ -1730,12 +1726,10 @@ static void *__vmalloc_area_node(struct vm_struct *area, gfp_t gfp_mask,
 	}
 	area->pages = pages;
 	area->caller = caller;
-	/* < DTS2014112902721 zhaiqi 20141129 begin */
 #ifdef CONFIG_DEBUG_VMALLOC
 	area->pid = current->pid;
 	area->task_name = current->comm;
 #endif
-	/* DTS2014112902721 zhaiqi 20141129 end > */
 	if (!area->pages) {
 		remove_vm_area(area->addr);
 		kfree(area);
@@ -2776,7 +2770,6 @@ static int s_show(struct seq_file *m, void *p)
 	if (v->flags & VM_LOWMEM)
 		seq_printf(m, " lowmem");
 
-	/* < DTS2014112902721 zhaiqi 20141129 begin */
 #ifdef CONFIG_DEBUG_VMALLOC
 	if (v->pid)
 		seq_printf(m, " pid=%d", v->pid);
@@ -2784,7 +2777,6 @@ static int s_show(struct seq_file *m, void *p)
 	if (v->task_name)
 		seq_printf(m, " task name=%s", v->task_name);
 #endif
-	/* DTS2014112902721 zhaiqi 20141129 end > */
 	show_numa_info(m, v);
 	seq_putc(m, '\n');
 	return 0;
