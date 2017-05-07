@@ -1,0 +1,13 @@
+/* < DTS2015030601036 lixiuzhen 20150306 begin */
+/* < DTS2015031004345 menglingchao 20150310 begin */
+ / {
+        huawei_fac_info {
+                  compatible = "huawei,hw_fac_info";
+                  fac,product_name = "HUAWEI RIO-CL00";
+                  fac,hardware_ver = "HL1RIOAL00M";
+                  fac,software_ver = "MSM8939_RIO_CL00_VB";
+                  status = "ok";
+        };
+};
+/* DTS2015031004345 menglingchao 20150310 end > */
+/* DTS2015030601036 lixiuzhen 20150306 end > */

@@ -1,0 +1,34 @@
+/* < DTS2015021303968 liyu 20150225 begin */
+/* < DTS2015030203037 jiangchenghu 20150302 begin */
+/* < DTS2015032301220 weiqiang 20150323 begin */
+/* < DTS2015062308261 lichunjie 20150623 begin */
+/ {
+    huawei_audio_info {
+        compatible = "huawei,hw_audio_info";
+        product-identifier = "Alice";
+        builtin-master-mic-exist;
+        builtin-2nd-mic-exist;
+        hand_held_master_mic_strategy;
+        status = "ok";
+        loud_speaker_second_mic_strategy;
+        product-btsco-nrec-adapt;
+    };
+};
+&soc {
+    sound {
+        qcom,msm-micbias1-ext-cap;
+        qcom,msm-ext-pa = "quaternary";
+        pinctrl-names = "cdc_lines_act",
+            "cdc_lines_sus",
+            "cdc_lines_quat_ext_act",
+            "cdc_lines_quat_ext_sus";
+        pinctrl-0 = <&cdc_pdm_lines_act>;
+        pinctrl-1 = <&cdc_pdm_lines_sus>;
+        pinctrl-2 = <&cdc_pdm_lines_act &ext_cdc_tlmm_lines_act>;
+        pinctrl-3 = <&cdc_pdm_lines_sus &ext_cdc_tlmm_lines_sus>;
+    };
+};
+/* DTS2015062308261 lichunjie 20150623 end > */
+/* DTS2015032301220 weiqiang 20150323 end > */
+/* DTS2015030203037 jiangchenghu 20150302 end > */
+/* DTS2015021303968 liyu 20150225 end > */

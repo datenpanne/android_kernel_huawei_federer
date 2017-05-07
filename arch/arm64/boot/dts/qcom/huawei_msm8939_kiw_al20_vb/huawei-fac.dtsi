@@ -1,0 +1,11 @@
+/* <DTS2015121901955 c00248442 20151216 begin */
+ / {
+        huawei_fac_info {
+                  compatible = "huawei,hw_fac_info";
+                  fac,product_name = "HUAWEI KIW-AL20";
+                  fac,hardware_ver = "HL1KIWMH1AG";
+                  fac,software_ver = "MSM8939_KIW_AL20_VB";
+                  status = "ok";
+        };
+};
+/* DTS2015121901955 c00248442 20151216 end> */

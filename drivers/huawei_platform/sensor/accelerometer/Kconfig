@@ -1,0 +1,45 @@
+#/* < DTS2015031902473 caowei 20150319 begin */
+config HUAWEI_ACCEL_SENSORS_KIONIX
+        tristate "ROHM_KX023 3-axis digital acceleromater"
+        depends on I2C
+	default n
+        help
+          Say Y here if you want to support ROHM_KX023 accelerometer connected via an I2C bus.
+          to compile this driver as a module, choose M here: the module will be called kionix_accel.
+ 
+config HUAWEI_ACCEL_SENSORS_LIS3DH
+        tristate "ST LIS3DH 3-axis digital acceleromater"
+        depends on I2C
+        default n
+	help
+          Say Y here if you want to support STMicroelectronics LIS3DH accelerometer connected via an I2C bus.
+          to compile this driver as a module, choose M here: the module will be called lis3dh_acc.
+#/* < DTS2015112600367  chendong 20151126 begin */
+config HUAWEI_ACCEL_SENSORS_BMA2x2
+        tristate "BOSCH_BMA2X2 3-axis digital acceleromater"
+        depends on I2C
+	default n
+        help
+          Say Y here if you want to support BOSCH_BMA2X2 accelerometer connected via an I2C bus.
+          to compile this driver as a module, choose M here: the module will be called bma2x2_accel.
+config SENSORS_BMA2X2_ENABLE_INT1
+	tristate "BMA2X2 acceleration sensor interrupt INT1 support"
+	depends on HUAWEI_ACCEL_SENSORS_BMA2x2
+	help
+	 If you say yes here, you get INT1 support for Bosch Sensortec
+	 acceleration sensors BMA255/BMA254/BMA355/BMA250E/BMA222E/BMA280.
+	 Select it will disable interrupt INT2 support
+	 
+config SIG_MOTION
+	tristate "support significant motion sensor function"
+	depends on HUAWEI_ACCEL_SENSORS_BMA2x2  && ( SENSORS_BMA2X2_ENABLE_INT1 || SENSORS_BMA2X2_ENABLE_INT2)
+	help
+	 If you say yes here, if you want to support Bosch significant motion sensor function
+
+config DOUBLE_TAP
+	tristate "support double tap sensor function"
+	depends on HUAWEI_ACCEL_SENSORS_BMA2x2  && ( SENSORS_BMA2X2_ENABLE_INT1 || SENSORS_BMA2X2_ENABLE_INT2)
+	help
+	 If you say yes here, you get support Bosch double tap sensor function
+#/* DTS2015112600367  chendong 20151126 end > */
+#/* DTS2015031902473 caowei 20150319 end > */

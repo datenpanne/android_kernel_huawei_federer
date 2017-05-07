@@ -1,0 +1,32 @@
+/* < DTS2015030601036 lixiuzhen 20150306 begin */
+/* < DTS2015052110249 lugandong 20150522 begin */
+/* < DTS2015081903806 lugandong 20150917 begin */
+/ {
+    huawei_audio_info {
+        compatible = "huawei,hw_audio_info";
+        product-identifier = "rio";
+        builtin-master-mic-exist;
+        builtin-2nd-mic-exist;
+        hand_held_master_mic_strategy;
+        status = "ok";
+        loud_speaker_second_mic_strategy;
+        product-btsco-nrec-adapt;
+    };
+};
+&soc {
+    sound {
+        qcom,msm-micbias1-ext-cap;
+        huawei,cable-enable-mbhc;
+    };
+};
+&spmi_bus {
+        qcom,pm8916@1 {
+                pm8916_tombak_dig: msm8x16_wcd_codec@f000{
+                        qcom,cdc-boost-voltage = <5000>;
+                        huawei,cable-enable-msm;
+                };
+        };
+};
+/* DTS2015081903806 lugandong 20150917 end >*/
+/* DTS2015052110249 lugandong 20150522 end >*/
+/* DTS2015030601036 lixiuzhen 20150306 end > */

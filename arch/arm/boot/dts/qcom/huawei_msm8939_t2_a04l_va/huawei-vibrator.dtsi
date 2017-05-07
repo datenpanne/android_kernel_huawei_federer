@@ -1,0 +1,20 @@
+/* < DTS2015071605523 guotiecheng 20150716 begin */
+&spmi_bus{
+	qcom,pm8916@1 {
+		pm8916_vib: qcom,vibrator@c000 {
+		compatible = "qcom,qpnp-vibrator";
+		qcom,vib-timeout-ms = <15000>;
+		/* < DTS2015080308655 chendong wx241705 begin */
+		/* < DTS2015080308655 chendong wx241705 begin */
+                qcom,vib-vtg-level-mV = <2700>;
+                /* DTS2015080308655 chendong wx241705 end > */
+		/* DTS2015080308655 chendong wx241705 end > */
+		reg = <0xc000 0x100>;
+		label = "vibrator";
+		/* < DTS2015101701444 chendong wx241705 begin */
+		status = "disabled";
+		/* DTS2015101701444 chendong wx241705 end >*/
+		};
+	};
+};
+/* DTS2015071605523 guotiecheng 20150716 end >*/

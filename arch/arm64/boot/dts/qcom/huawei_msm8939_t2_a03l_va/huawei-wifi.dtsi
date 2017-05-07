@@ -1,0 +1,15 @@
+
+/* < DTS2015071605523 guotiecheng 20150716 begin */
+/* < DTS2015071100406 hwx239867 20150724 begin */
+ / {
+        huawei_wifi_info {
+                  compatible = "huawei,hw_wifi_info";
+                  status = "ok";
+                  wifi,chiptype = "2.7";
+                  wifi,pubfile_id = "t2_a03l_va";
+                  wifi,fw_ver = "QCOM_WCN3680B_2.0.1";
+                  wifi,softap_feature = "wps";
+        };
+};
+/* DTS2015071100406 hwx239867 20150724 end */
+/* DTS2015071605523 guotiecheng 20150716 end >*/

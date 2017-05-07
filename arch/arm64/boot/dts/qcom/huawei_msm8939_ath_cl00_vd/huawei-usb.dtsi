@@ -1,0 +1,52 @@
+/* < DTS2015072404956 goupeipei 20150724 begin */
+/* < DTS2014122400303 yuanzhen 20141224 begin */
+/{
+	usbswitch: usbswitch {
+		compatible = "huawei,usbswitch";
+		gpio_switch_back = "-1";
+		status = "ok";
+	};
+};
+
+&soc {
+	/* < DTS2015031802908 yuanzhen 20150318 begin */
+	i2c@78b6000{
+	/* DTS2015031802908 yuanzhen 20150318 end > */
+		fairchild_fsa9685: fsa9685@25 {
+			compatible = "huawei,fairchild_fsa9685";
+			reg = <0x25>;
+			fairchild_fsa9685,gpio-intb = <&msm_gpio 118 0>;
+			status = "ok";
+		};
+	};
+};
+/* DTS2014122400303 yuanzhen 20141224 end > */
+
+/* < DTS2015012703515 yuanzhen 20150127 begin */
+&soc {
+	/* < DTS2015031802908 yuanzhen 20150318 begin */
+	i2c@78b6000{
+	/* DTS2015031802908 yuanzhen 20150318 end > */
+		fairchild_fsa9686: fsa9686@26 {
+			compatible = "huawei,fairchild_fsa9686";
+			reg = <0x26>;
+			fairchild_fsa9685,gpio-intb = <&msm_gpio 118 0>;
+			status = "ok";
+		};
+	};
+};
+/* DTS2015012703515 yuanzhen 20150127 end > */
+
+/* < DTS2014122907766 chenxi 20141229 begin */
+&usb_otg {
+	qcom,hsusb-otg-mode = <3>;
+	vbus_otg-supply = <&bq24296_otg_supply>;
+	/* < DTS2015081908926 zhangjian 20150820 begin  */
+	qcom,hsusb-otg-phy-init-seq =
+		<0x74 0x80 0x6F 0x81 0x35 0x82 0x23 0x83 0xffffffff>;
+	qcom,hsusb-otg-phy-init-seq-host =
+		<0x74 0x80 0x22 0x81 0x35 0x82 0x23 0x83 0xffffffff>;
+	/* DTS2015081908926 zhangjian 20150820 end > */
+};
+/* DTS2014122907766 chenxi 20141229 end > */
+/* DTS2015072404956 goupeipei 20150724 end > */

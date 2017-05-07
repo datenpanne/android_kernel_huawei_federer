@@ -1,0 +1,7 @@
+#/*< DTS2014122907589 mazhenhua 20141229 begin */
+menu "huawei linux device driver support package"
+
+source "drivers/huawei/store_exception/Kconfig"
+
+endmenu
+#/* DTS2014122907589 mazhenhua 20141229 end >*/

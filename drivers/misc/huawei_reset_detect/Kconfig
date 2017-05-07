@@ -1,0 +1,8 @@
+#/* < DTS2015012101808 chenxi 20150121 begin */
+config HUAWEI_RESET_DETECT
+	tristate "detect abnormal reset"
+	depends on HUAWEI_KERNEL
+	default n
+	help
+	  Say Y here to detect abnormal reset
+#/* DTS2015012101808 chenxi 20150121 end > */

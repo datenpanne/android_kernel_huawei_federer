@@ -1,0 +1,13 @@
+/* < DTS2015030406621 rentianzhi 20150304 begin */
+/* < DTS2015021303968 liyu 20150225 begin */
+ / {
+        huawei_fac_info {
+                  compatible = "huawei,hw_fac_info";
+                  fac,product_name = "HUAWEI ALE-CL00";
+                  fac,hardware_ver = "HL6ALICEM";
+                  fac,software_ver = "MSM8939_ALE-CL00_VC";
+                  status = "ok";
+        };
+};
+/* DTS2015021303968 liyu 20150225 end > */
+/* DTS2015030406621 rentianzhi 20150304 end > */

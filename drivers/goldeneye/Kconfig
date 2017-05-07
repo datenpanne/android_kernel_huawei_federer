@@ -1,0 +1,5 @@
+#/*< DTS2014122904893 shiguojun 20141229 begin */
+config HUAWEI_GOLDENEYE
+       bool "huawei goldeneye watchpoints feature support"
+       default n
+#/* DTS2014122904893 shiguojun 20141229 end >*/

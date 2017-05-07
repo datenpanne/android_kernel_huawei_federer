@@ -1,0 +1,23 @@
+#/*< DTS2014122907589 mazhenhua 20141229 begin */
+#/* < DTS2014082110037 chenqihang 20140821 begin */
+menu HUAWEI_LOG_MODULE
+
+config  HUAWEI_LOG_MODULE
+        default n
+	bool "huawei log module"
+	help
+          huawei log module control
+
+endmenu
+
+menu HUAWEI_STORE_EXCEPTION
+
+config  HUAWEI_STORE_EXCEPTION
+        default n
+	bool "huawei store exception"
+	help
+          huawei store exception control
+
+endmenu
+#/* DTS2014082110037 chenqihang 20140821 end> */
+#/* DTS2014122907589 mazhenhua 20141229 end >*/

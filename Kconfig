@@ -1,0 +1,28 @@
+#
+# For a description of the syntax of this configuration file,
+# see Documentation/kbuild/kconfig-language.txt.
+#
+mainmenu "Linux/$ARCH $KERNELVERSION Kernel Configuration"
+
+config SRCARCH
+	string
+	option env="SRCARCH"
+
+#/* < DTS2014112402783 mazhenhua 20141124 begin */
+config HUAWEI_KERNEL
+	bool "Use huawei code"
+	default y
+	help
+	use huawei code
+#/* DTS2014112402783 mazhenhua 20141124 end > */
+
+# /* < DTS2014112704100 zhaiqi 20141127 begin */
+config HUAWEI_KERNEL_DEBUG
+	bool "Use Huawei kernel debug mode"
+	depends on HUAWEI_KERNEL
+	default n
+	help
+	  Enable sysrq, dump mode and some debug masks by default.
+# /* DTS2014112704100 zhaiqi 20141127 end > */
+
+source "arch/$SRCARCH/Kconfig"

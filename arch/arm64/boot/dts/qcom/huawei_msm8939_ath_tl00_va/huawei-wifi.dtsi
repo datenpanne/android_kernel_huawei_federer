@@ -1,0 +1,18 @@
+/* < DTS2014121300501 wanghao 20141213 begin */
+/* < DTS2014102900104 chenjikun 20141224 begin */
+/* < DTS2015011502558 wanghao 20150115 begin */
+/* < DTS2015031002564 caoliang 20150310 begin */
+ / {
+        huawei_wifi_info {
+                  compatible = "huawei,hw_wifi_info";
+                  status = "ok";
+                  wifi,chiptype = "2.3";
+                  wifi,pubfile_id = "ath_tl00";
+                  wifi,fw_ver = "QCOM_WCN3620_2.0.1";
+                  wifi,softap_feature = "wps";
+        };
+};
+/* DTS2015031002564 caoliang 20150310 end > */
+/* DTS2015011502558 wanghao 20150115 end > */
+/* DTS2014102900104 chenjikun 20141224 end > */
+/* DTS2014121300501 wanghao 20141213 end > */

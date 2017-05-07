@@ -1,0 +1,7 @@
+# /* < DTS2015071700385 xujian 20150717 begin */
+config HUAWEI_MSG_POLICY
+	bool "Huawei msg policy"
+	default n
+	help
+	  huawei msg policy
+#/*  DTS2015071700385 xujian 20150717 end > */

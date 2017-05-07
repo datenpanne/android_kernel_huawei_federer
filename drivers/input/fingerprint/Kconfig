@@ -1,0 +1,12 @@
+#/*< DTS2015011503877 lijianzhao 20150115 begin */
+config FINGERPRINT
+	tristate "fingerprint"
+	default n
+	help
+		If you say yes here you get support for fingerprint.
+#/* DTS2015011503877 lijianzhao 20150115 end >*/
+config FPC_NAV_UP_DOWN
+	tristate "fingerprint navigation up/down feature"
+	default n
+	help
+		If you say yes here you get support for fingerprint up & down navigation feature.
