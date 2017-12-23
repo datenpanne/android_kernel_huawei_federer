@@ -9,4 +9,3 @@
                   wifi,softap_feature = "wps";
         };
 };
-

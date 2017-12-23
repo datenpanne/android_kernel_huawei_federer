@@ -53,10 +53,8 @@ struct msm_sensor_fn_t {
 	int (*sensor_power_down) (struct msm_sensor_ctrl_t *);
 	int (*sensor_power_up) (struct msm_sensor_ctrl_t *);
 	int (*sensor_match_id) (struct msm_sensor_ctrl_t *);
-	/*< DTS2014103002530 tangying/2059825 20141030 begin*/
 	/* optimize camera print mipi packet and frame count log*/
 	int (*sensor_read_framecount)(struct msm_sensor_ctrl_t *);
-	/*DTS2014103002530 tangying/2059825 20141030 end >*/
 };
 
 struct msm_sensor_ctrl_t {
@@ -80,28 +78,18 @@ struct msm_sensor_ctrl_t {
 	enum msm_sensor_state_t sensor_state;
 	uint8_t is_probe_succeed;
 	uint32_t id;
-	/*< DTS2014111305646 tangying/205982 20141113 begin*/
 	/*use dtsi get sensor name instead of board id string*/
 	//uint32_t support_sensor_count;
 	const char *support_sensor_code;
-	/*DTS2014111305646 tangying/205982 20141113 end >*/
-	/*< DTS2014103002530 tangying/2059825 20141030 begin*/
 	/* optimize camera print mipi packet and frame count log*/
 	/*add a delay work for read frame count when stream on*/
 	struct delayed_work frm_cnt_work;
-	/*DTS2014103002530 tangying/2059825 20141030 end >*/
 	struct device_node *of_node;
 	enum msm_camera_stream_type_t camera_stream_type;
 	uint32_t set_mclk_23880000;
-   /* <DTS2015051109283 jiweifeng/jwx206032 20150515 begin */
 	struct msm_sensor_afc_otp_info afc_otp_info;
 	struct msm_sensor_mmi_otp_flag hw_otp_check_flag;
-   /* DTS2015051109283 jiweifeng/jwx206032 20150515 end> */
-    /* < DTS2015042906355 y00294389 20150515 begin */
-	/* <DTS2015033002251 z00285045 20150413 begin */
 	struct msm_sensor_awb_otp_info awb_otp_info;
-	/* DTS2015033002251 z00285045 20150413 end> */
-	/* DTS2015042906355 y00294389 20150515 end > */
 };
 
 int msm_sensor_config(struct msm_sensor_ctrl_t *s_ctrl, void __user *argp);

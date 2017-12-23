@@ -42,9 +42,7 @@
 #include "msm_camera_io_util.h"
 #include <linux/debugfs.h>
 
-/* < DTS2014081209165 Zhangbo 00166742 20140812 begin */
 #include "msm_camera_dsm.h"
-/* DTS2014081209165 Zhangbo 00166742 20140812 end > */
 
 #define MSM_CPP_DRV_NAME "msm_cpp"
 
@@ -1624,11 +1622,7 @@ static int msm_cpp_cfg_frame(struct cpp_device *cpp_dev,
 			&buff_mgr_info);
 		if (rc < 0) {
 			rc = -EAGAIN;
-			/* < DTS2015042906355 y00294389 20150525 begin */
-			/* < DTS2014070309341 lwx223669 20140704 begin */
 			CPP_DBG("error getting buffer rc:%d\n", rc);
-			/* DTS2014070309341 lwx223669 20140704 end > */
-			/* DTS2015042906355 y00294389 20150525 end > */
 			goto frame_msg_err;
 		}
 		new_frame->output_buffer_info[0].index = buff_mgr_info.index;
@@ -1662,11 +1656,7 @@ static int msm_cpp_cfg_frame(struct cpp_device *cpp_dev,
 			&dup_buff_mgr_info);
 		if (rc < 0) {
 			rc = -EAGAIN;
-			/* < DTS2015042906355 y00294389 20150525 begin */
-			/* < DTS2014070309341 lwx223669 20140704 begin */
 			CPP_DBG("error getting buffer rc:%d\n", rc);
-			/* DTS2014070309341 lwx223669 20140704 end > */
-			/* DTS2015042906355 y00294389 20150525 end > */
 			goto phyaddr_err;
 		}
 		new_frame->output_buffer_info[1].index =

@@ -1,5 +1,3 @@
-/* < DTS2015081501800   liyan/00278255       20150815 begin> */
-/* < DTS2015071606479   wangqiaoli/w00345499 20150716 begin */
 /*******************************************************************
   Copyright (C), 1988-1999, Huawei Tech. Co., Ltd.
   File name         : sensor_otp_imx214.c
@@ -51,17 +49,11 @@
 
 #define IMX214_SUNNY_MODULE_VENDOR_ID    0x01
 #define IMX214_FOXCONN_MODULE_VENDOR_ID  0x02
-/*<DTS2015073008870 wangqiaoli/w00345499 20150730 begin*/
 #define IMX214_OFILM_MODULE_VENDOR_ID 0x06
-/*DTS2015073008870 wangqiaoli/w00345499 20150730 end>*/
 #define IMX214_MODULE_HUAWEI_ID          0x9c//23060156
-/* <DTS2015091108992 w00167383 20150911 begin> */
 #define IMX214_SUNNY_MODULE_VCM_OFFSET    200
-/* DTS2015091108992 w00167383 20150911 end> */
 #define IMX214_FOXCONN_MODULE_VCM_OFFSET  170
-/*<DTS2015073008870 wangqiaoli/w00345499 20150730 begin*/
 #define IMX214_OFILM_MODULE_VCM_OFFSET    140
-/*DTS2015073008870 wangqiaoli/w00345499 20150730 end>*/
 #define IMX214_MODULE_AF_END_MAX 1023
 
 #define DIGITAL_GAIN_CALC_BASE 0x1000
@@ -76,14 +68,12 @@
 #define IMX214_DIG_GAIN_B_REG_H      (0x0212)
 #define IMX214_DIG_GAIN_B_REG_L      (0x0213)
 
-/* <DTS2015072108888 z00285045 20150721 begin */
 #define IMX214_MMI_OTP_VCM_FLAG          (1 << 0)
 #define IMX214_MMI_OTP_AWB_FLAG          (1 << 1)
 #define IMX214_MMI_OTP_MODULE_INFO_FLAG  (1 << 2)
 #define IMX214_MMI_OTP_LSC_FLAG          (1 << 3)
 #define IMX214_MMI_OTP_CHECKSUM_FLAG     (1 << 4)
 #define IMX214_MMI_OTP_SUMVAL_FLAG       (1 << 5)
-/* DTS2015072108888 z00285045 20150721 end> */
 
 typedef struct __lsc_block_t
 {
@@ -100,7 +90,6 @@ lsc_block_type lsc_block_array[] =
     {OTP_SLAVE_ADDR4, 0x00, 256},
     {OTP_SLAVE_ADDR5, 0x00, 190},
 };
-/*<DTS2015073008870 wangqiaoli/w00345499 20150730 begin*/
 typedef enum
 {
     SUNNY   = 0x01,
@@ -108,7 +97,6 @@ typedef enum
     OFILM   = 0x06,
     INVALID,
 } module_type;
-/*DTS2015073008870 wangqiaoli/w00345499 20150730 end>*/
 typedef struct
 {
     uint16_t rgain;
@@ -116,7 +104,6 @@ typedef struct
     uint16_t bgain;
 } awb_gain;
 
-/*<DTS2015073008870 wangqiaoli/w00345499 20150730 begin*/
 static awb_gain awb_gain_typical[] =
 {
     {0, 0, 0}, //dummy
@@ -128,9 +115,7 @@ static awb_gain awb_gain_typical[] =
     {0xdf7, 0x76b, 0xc25},//ofilm
 
 };
-/*DTS2015073008870 wangqiaoli/w00345499 20150730 end>*/
 
-/*<DTS2015073008870 wangqiaoli/w00345499 20150730 begin*/
 static uint16_t af_offset_defined[] =
 {
     00,   //dummy
@@ -141,7 +126,6 @@ static uint16_t af_offset_defined[] =
     00,
     IMX214_OFILM_MODULE_VCM_OFFSET,//ofilm module vcm offset
 };
-/*DTS2015073008870 wangqiaoli/w00345499 20150730 end>*/
 
 typedef struct imx214_otp_struct_type
 {
@@ -317,7 +301,6 @@ static bool imx214_otp_get_module_id(struct msm_sensor_ctrl_t* s_ctrl)
         CMR_LOGE("%s, huawei_id is err!\n", __func__);
         return false;
     }
-    /*<DTS2015073008870 wangqiaoli/w00345499 20150730 begin*/
     vendor_id = (buf[4] >> 4) & 0x0F;
     if ( IMX214_SUNNY_MODULE_VENDOR_ID == vendor_id ){
         CMR_LOGW("%s sunny_module\n", __func__);
@@ -332,7 +315,6 @@ static bool imx214_otp_get_module_id(struct msm_sensor_ctrl_t* s_ctrl)
         CMR_LOGE("%s module_id is wrong\n", __func__);
         return false;
     }
-    /*DTS2015073008870 wangqiaoli/w00345499 20150730 end>*/
 
     return true;
 }
@@ -455,7 +437,6 @@ static bool imx214_otp_get_af(struct msm_sensor_ctrl_t* s_ctrl)
 
     return true;
 }
-/* <DTS2015072108888 z00285045 20150721 begin */
 /****************************************************************************
 * FunctionName: imx214_get_otp_from_sensor;
 * Description : Get all the OTP info from EEPROM.;
@@ -543,7 +524,6 @@ GET_OTP_FAIL:
     CMR_LOGE("%s imx214_mmi_otp_flag = 0x%x\n",__func__, s_ctrl->hw_otp_check_flag.mmi_otp_check_flag);
     return false;
 }
-/* DTS2015072108888 z00285045 20150721 end> */
 
 /****************************************************************************
 * FunctionName: imx214_otp_set_awb;
@@ -719,6 +699,4 @@ int imx214_otp_func(struct msm_sensor_ctrl_t* s_ctrl, int index)
 
     return rc;
 }
-/* DTS2015071606479   wangqiaoli/w00345499 20150716 end> */
-/* < DTS2015081501800   liyan/l00278255    20150815 end> */
 

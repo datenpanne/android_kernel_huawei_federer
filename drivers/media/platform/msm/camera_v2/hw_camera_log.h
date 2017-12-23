@@ -1,4 +1,3 @@
-/*<DTS2014060405107 luozhi/wx217218 20140604 begin*/
 /*
  * hw_camera_log file
  */
@@ -58,4 +57,3 @@ do{                                     \
 #endif
 
 #endif /*_HW_CAMERA_LOGE_H */
-/*DTS2014060405107 luozhi/wx217218 20140604 end>*/

@@ -10,8 +10,7 @@
 		2 &msm_gpio 38 0>;
 	cd-gpios = <&msm_gpio 38 0x0>;
 	qcom,vdd-io-voltage-level = <2950000 2950000>;
-	/delete-property/ qcom,vdd-always-on;
-	/delete-property/ qcom,vdd-io-always-on;
+	/* revert use deferred resume*/
 };
 &tlmm_pinmux {
 	sdhc2_cd_pin {

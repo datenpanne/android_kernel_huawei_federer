@@ -1,20 +1,4 @@
-/*< DTS2014081404502 wangguoying 20140814 begin*/
-/* < DTS2015071306992 jiweifeng/WX206032 20150713 begin */
-/*******************************************************************
-  Copyright (C), 1988-1999, Huawei Tech. Co., Ltd.
-  File name         : sensor_otp_imx328_sunny_p13n10a.c
-  Author            : w00182304
-  Version           : Initial Draft
-  Date              : 2014/08/11
-  Description       : this file contains the functions to detect and read
-                      imx328_sunny camera's OTP memory info.
-  Function List     :
-            imx328_sunny_p13n10a_otp_func
-  History           :
-  1.Date          : 2014/08/11
-    Author        : w00182304
-    Modification  : Created File
-********************************************************************/
+
 #define HW_CMR_LOG_TAG "sensor_otp_imx328_sunny_p13n10a"
 #include <linux/hw_camera_common.h>
 #include <media/msm_cam_sensor.h>
@@ -45,14 +29,12 @@
 #define IMX328_SUNNY_MODULE_VENDOR_ID    0x01//SUNNY
 #define IMX328_SUNNY_MODULE_HUAWEI_ID    0xA7//23060167
 
-/* <DTS2015072108888 z00285045 20150721 begin */
 #define IMX328_MMI_OTP_VCM_FLAG          (1 << 0)
 #define IMX328_MMI_OTP_AWB_FLAG          (1 << 1)
 #define IMX328_MMI_OTP_MODULE_INFO_FLAG  (1 << 2)
 #define IMX328_MMI_OTP_LSC_FLAG          (1 << 3)
 #define IMX328_MMI_OTP_CHECKSUM_FLAG     (1 << 4)
 #define IMX328_MMI_OTP_SUMVAL_FLAG       (1 << 5)
-/* DTS2015072108888 z00285045 20150721 end> */
 
 #define DIGITAL_GAIN_CALC_BASE 0x1000
 #define DIGITAL_GAIN_BASE 0x100
@@ -76,11 +58,9 @@ typedef struct {
     uint32_t bgain;
 } awb_gain;
 
-/* < DTS2015071606479   wangqiaoli/w00345499 20150716 begin */
 static awb_gain awb_gain_typical[] = {
     {0xe9d, 0x794, 0xaf5}, //sunny
 };
-/* DTS2015071606479   wangqiaoli/w00345499 20150716 end> */
 
 typedef struct imx328_otp_struct_type {
     uint32_t rgain;
@@ -353,7 +333,6 @@ static bool imx328_otp_read_vcm(struct msm_sensor_ctrl_t *s_ctrl)
 
     return true;
 }
-/* <DTS2015072108888 z00285045 20150721 begin */
 /****************************************************************************
 * FunctionName: imx328_get_otp_from_sensor;
 * Description : Get all the OTP info from EEPROM.;
@@ -433,7 +412,6 @@ OTP_FAIL:
 	CMR_LOGE("%s imx328_mmi_otp_flag = 0x%x\n",__func__, s_ctrl->hw_otp_check_flag.mmi_otp_check_flag);
     return false;
 }
-/* DTS2015072108888 z00285045 20150721 end> */
 
 /****************************************************************************
 * FunctionName: imx328_otp_get_flag;
@@ -570,5 +548,3 @@ int imx328_sunny_p13n10a_otp_func(struct msm_sensor_ctrl_t *s_ctrl, int index)
 
     return rc;
 }
-/* DTS2015071306992 jiweifeng/WX206032 20150713 end > */
-/* DTS2014081404502 wangguoying 20140814 end >*/

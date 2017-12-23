@@ -33,5 +33,6 @@
 #include "huawei-sdcard.dtsi"
 #include "huawei-usb.dtsi"
 #include "huawei-gpio.dtsi"
-#include "huawei-keymap.dtsi"
+#include "huawei-sim.dtsi"
+//delete line
 

@@ -1,19 +1,4 @@
-/*<DTS2014061904065 Zhangbo 20140619 begin*/
-/* < DTS2014072601546 yanhuiwen/0083550 20140723 begin */
-/************************************************************
-  Copyright (C), 1988-1999, Huawei Tech. Co., Ltd.
-  FileName: sensor_otp_ov5648_foxconn_sc0602.c
-  Author:  z00166742
-  Version :Initial Draft
-  Date: 2014/06/13
-  Description:    this file contion several functions to detect otp_ov5648 properties
-  Version:         Initial Draft
-  History:
-   History        :
-   1.Date        : 2014/06/13
-   Author        : z00166742
-   Modification : Created function
-***********************************************************/
+
 
 //#define HW_CMR_LOGSWC 0   //file log switch set 0 off,default is 1 on
 #define HW_CMR_LOG_TAG "sensor_otp_ov5648_foxconn_sc0602"
@@ -506,5 +491,3 @@ int ov5648_foxconn_sc0602_otp_func(struct msm_sensor_ctrl_t * s_ctrl, int index)
 
     return 0;
 }
-/* DTS2014072601546 yanhuiwen/00283550 20140723 end > */
-/* DTS2014061904065 Zhangbo 20140619 end >*/

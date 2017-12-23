@@ -18,43 +18,26 @@
 #include <linux/regulator/rpm-smd-regulator.h>
 #include <linux/regulator/consumer.h>
 
-/* <DTS2014051302540 zhuchengming 20140513 begin */
 #include "sensor_otp_common_if.h"
-/* DTS2014051302540 zhuchengming 20140513 end> */
 
-/* < DTS2014081209165 Zhangbo 00166742 20140812 begin */
-/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
-/* < DTS2015042906355 y00294389 20150525 begin */
 #ifdef CONFIG_HUAWEI_DSM
 #include "msm_camera_dsm.h"
 #endif
-/* DTS2015042906355 y00294389 20150525 end > */
-/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-/* DTS2014081209165 Zhangbo 00166742 20140812 end > */
 
-/*< DTS2014103002530 tangying/2059825 20141030 begin*/
 /* optimize camera print mipi packet and frame count log*/
 #include "./msm.h"
 #include "./csid/msm_csid.h"
-/*DTS2014103002530 tangying/2059825 20141030 end >*/
 /*#define CONFIG_MSMB_CAMERA_DEBUG*/
 #undef CDBG
 #define CDBG(fmt, args...) pr_debug(fmt, ##args)
 
 static struct v4l2_file_operations msm_sensor_v4l2_subdev_fops;
 
-/* < DTS2014081209165 Zhangbo 00166742 20140812 begin */
-/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
-/* < DTS2015042906355 y00294389 20150525 begin */
 #ifdef CONFIG_HUAWEI_DSM
 void camera_report_dsm_err_msm_sensor(struct msm_sensor_ctrl_t *s_ctrl, int type, int err_num , const char* str);
 //move camera_dsm_log_buff and Macro of BUFFER_SIZE to head file
 #endif
-/* DTS2015042906355 y00294389 20150525 end > */
-/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-/* DTS2014081209165 Zhangbo 00166742 20140812 end > */
 
-/* < DTS2015052000188 y00294389 20150515 begin */
 //dump three times, only print the reg vluae
 static void msm_sensor_dump_reg(struct msm_sensor_ctrl_t *s_ctrl)
 {
@@ -122,7 +105,6 @@ static void msm_sensor_dump_reg(struct msm_sensor_ctrl_t *s_ctrl)
 
     return;
 }
-/* DTS2015052000188 y00294389 20150515 end > */
 
 static void msm_sensor_adjust_mclk(struct msm_camera_power_ctrl_t *ctrl)
 {
@@ -512,7 +494,6 @@ static struct msm_cam_clk_info cam_8974_clk_info[] = {
 	[SENSOR_CAM_CLK] = {"cam_clk", 0},
 };
 
-/* <DTS2014061204421 yangzhenxi/WX221546 20140612 begin */
 static int msm_sensor_check_mcam_id(struct msm_sensor_ctrl_t *s_ctrl)
 {
 	int rc=0,mcam_id=-1;
@@ -537,9 +518,7 @@ static int msm_sensor_check_mcam_id(struct msm_sensor_ctrl_t *s_ctrl)
 	}
 	return rc;
 }
-/* <DTS2014061204421 yangzhenxi/WX221546 20140612 end */
 
-/*<DTS2015073008870 wangqiaoli/w00345499 20150730 begin*/
 static int msm_sensor_check_otp_vendor_id(struct msm_sensor_ctrl_t *s_ctrl)
 {
 	struct msm_camera_slave_info *slave_info = NULL;
@@ -613,7 +592,6 @@ static int msm_sensor_check_otp_vendor_id(struct msm_sensor_ctrl_t *s_ctrl)
 
 	return rc;
 }
-/*DTS2015073008870 wangqiaoli/w00345499 20150730 end>*/
 int msm_sensor_power_down(struct msm_sensor_ctrl_t *s_ctrl)
 {
 	struct msm_camera_power_ctrl_t *power_info;
@@ -675,7 +653,6 @@ int msm_sensor_power_up(struct msm_sensor_ctrl_t *s_ctrl)
 			sensor_i2c_client);
 		if (rc < 0)
 			return rc;
-/* <DTS2014061204421 yangzhenxi/WX221546 20140612 begin */
 		rc = msm_sensor_check_mcam_id(s_ctrl);
 		if(rc < 0)
 		{
@@ -684,16 +661,12 @@ int msm_sensor_power_up(struct msm_sensor_ctrl_t *s_ctrl)
 				s_ctrl->sensor_device_type, sensor_i2c_client);
 			break;
 		}
-/* <DTS2014061204421 yangzhenxi/WX221546 20140612 end */
-		/*<DTS2015073008870 wangqiaoli/w00345499 20150730 begin*/
 		rc = msm_sensor_check_id(s_ctrl);
 		if (rc < 0) {
 			msm_camera_power_down(power_info,
 				s_ctrl->sensor_device_type, sensor_i2c_client);
-			/* < DTS2014051603188  yangjiangjun 20140516 begin */
 			//from msleep(20) to mdelay(2)
 			mdelay(2);
-			/* DTS2014051603188  yangjiangjun 20140516 end > */
 			continue;
 		}
 
@@ -706,7 +679,6 @@ int msm_sensor_power_up(struct msm_sensor_ctrl_t *s_ctrl)
 		} else {
 			break;
 		}
-		/*DTS2015073008870 wangqiaoli/w00345499 20150730 end>*/
 	}
 
 	return rc;
@@ -736,8 +708,6 @@ int msm_sensor_match_id(struct msm_sensor_ctrl_t *s_ctrl)
 		return -EINVAL;
 	}
 
-/* < DTS2015042906355 y00294389 20150515 begin */
-/* < DTS2015032410610 lichengcheng wx270337 20150324 begin*/
 	rc = sensor_i2c_client->i2c_func_tbl->i2c_read(
 		sensor_i2c_client, slave_info->sensor_id_reg_addr,
                 &chipid, (slave_info->sensor_id_data_type ? slave_info->sensor_id_data_type : MSM_CAMERA_I2C_WORD_DATA));
@@ -745,8 +715,6 @@ int msm_sensor_match_id(struct msm_sensor_ctrl_t *s_ctrl)
 		pr_err("%s: %s: read id failed\n", __func__, sensor_name);
 		return rc;
 	}
-/* DTS2015032410610 lichengcheng wx270337 20150324 end >*/
-/* DTS2015042906355 y00294389 20150515 end > */
 
 	CDBG("%s: read id: 0x%x expected id 0x%x:\n", __func__, chipid,
 		slave_info->sensor_id);
@@ -785,7 +753,6 @@ static int msm_sensor_get_af_status(struct msm_sensor_ctrl_t *s_ctrl,
 	return 0;
 }
 
-/* <DTS2015051109283 jiweifeng/jwx206032 20150515 begin */
 static int msm_sensor_get_afc_otp_info(struct msm_sensor_ctrl_t *s_ctrl,
 			void __user *argp)
 {
@@ -808,10 +775,6 @@ static int msm_sensor_get_afc_otp_info(struct msm_sensor_ctrl_t *s_ctrl,
 	
 	return rc;
 }
-/* DTS2015051109283 jiweifeng/jwx206032 20150515 end> */
-/* < DTS2015062302165 w00182304  20150623 begin*/
-/* < DTS2015042906355 y00294389 20150525 begin */
-/* <DTS2015033002251 z00285045 20150413 begin */
 static int msm_sensor_get_awb_otp_info(struct msm_sensor_ctrl_t *s_ctrl,
 			void __user *argp)
 {
@@ -834,9 +797,6 @@ static int msm_sensor_get_awb_otp_info(struct msm_sensor_ctrl_t *s_ctrl,
 #endif
 	return rc;
 }
-/* DTS2015033002251 z00285045 20150413 end> */
-/* DTS2015042906355 y00294389 20150525 end > */
-/* DTS2015062302165 w00182304  20150623 end> */
 
 static long msm_sensor_subdev_ioctl(struct v4l2_subdev *sd,
 			unsigned int cmd, void *arg)
@@ -863,17 +823,14 @@ static long msm_sensor_subdev_ioctl(struct v4l2_subdev *sd,
 	case MSM_SD_SHUTDOWN:
 		msm_sensor_stop_stream(s_ctrl);
 		return 0;
-	/* < DTS2015052000188 y00294389 20150515 begin */
 	case MSM_SD_NOTIFY_FREEZE:
 		pr_err("%s:%d sof freeze, to dump sensor reg.\n", __func__, __LINE__);
 		msm_sensor_dump_reg(s_ctrl);
 		return 0;
-	/* DTS2015052000188 y00294389 20150515 end > */
 	default:
 		return -ENOIOCTLCMD;
 	}
 }
-/*< DTS2014103002530 tangying/2059825 20141030 begin*/
 /* optimize camera print mipi packet and frame count log*/
 static int read_times = 0;
 #define HW_PRINT_PACKET_NUM_TIME 5 //print 5 times
@@ -885,8 +842,6 @@ struct hw_sensor_fct {
     enum msm_camera_i2c_data_type type; //frame count reg data type
 };
 
-/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
-/* < DTS2015042906355 y00294389 20150525 begin */
 #ifdef CONFIG_HUAWEI_DSM
 static int csi_pkg_count = 0;
 static struct sensor_frame_count{
@@ -894,8 +849,6 @@ static struct sensor_frame_count{
 	int count;
 } sensor_frame_dsm_cnt;
 #endif
-/* DTS2015042906355 y00294389 20150525 end > */
-/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
 
 /*
 G760S use follow sensors:
@@ -905,25 +858,19 @@ imx214_foxconn     ---0x0005
 s5k4e1_sunny       ---0x0005
 ov5648_foxconn     ---no frame count reg
 */
-/*<DTS2015073008870 wangqiaoli/w00345499 20150730 begin*/
 struct hw_sensor_fct sensor_fct_list[] ={
     {"imx214_sunny_kiw",0x0005,MSM_CAMERA_I2C_BYTE_DATA},
     {"imx214_foxconn_kiw",0x0005,MSM_CAMERA_I2C_BYTE_DATA},
     {"imx214_ofilm_kiw",0x0005,MSM_CAMERA_I2C_BYTE_DATA},
     {"s5k4e1_sunny",0x0005,MSM_CAMERA_I2C_BYTE_DATA},
-    /* < DTS2015052000188 y00294389 20150515 begin */
     {"ar1335_sunny_f13m01f",0x303B,MSM_CAMERA_I2C_BYTE_DATA},
     {"s5k4e1_sunny_kivi",0x0005,MSM_CAMERA_I2C_BYTE_DATA},
     {"ov5648_foxconn_kivi",0x4869,MSM_CAMERA_I2C_BYTE_DATA},
     {"ov5648_ofilm_ohw5f03_kiw",0x4869,MSM_CAMERA_I2C_BYTE_DATA},
     {"ov13850_ofilm_ohw8a04",0x4851,MSM_CAMERA_I2C_BYTE_DATA},
     {"ov13850_liteon_193",0x4851,MSM_CAMERA_I2C_BYTE_DATA},
-    /* <DTS2015101001918 z00285045 20151010 begin */
     {"s5k3m2_sunny_kiw",0x0005,MSM_CAMERA_I2C_BYTE_DATA}
-    /* DTS2015101001918 z00285045 20151010 end> */
-    /* DTS2015052000188 y00294389 20150515 end > */
 };
-/*DTS2015073008870 wangqiaoli/w00345499 20150730 end>*/
 
 static int hw_sensor_read_framecount(struct msm_sensor_ctrl_t *s_ctrl)
 {
@@ -976,8 +923,6 @@ static int hw_sensor_read_framecount(struct msm_sensor_ctrl_t *s_ctrl)
     return framecount;
 }
 
-/* < DTS2015042906355 y00294389 20150525 begin */
-/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 static void read_framecount_work_handler(struct work_struct *work)
 {
     struct v4l2_subdev *subdev_csids[MAX_CSID_NUM] = {NULL};
@@ -1079,9 +1024,6 @@ static void read_framecount_work_handler(struct work_struct *work)
 
     
 }
-/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-/*DTS2014103002530 tangying/2059825 20141030 end >*/
-/* DTS2015042906355 y00294389 20150525 end > */
 
 #ifdef CONFIG_COMPAT
 static long msm_sensor_subdev_do_ioctl(
@@ -1110,9 +1052,7 @@ static int msm_sensor_config32(struct msm_sensor_ctrl_t *s_ctrl,
 	int32_t rc = 0;
 	int32_t i = 0;
 
-	/* <DTS2014051302540 zhuchengming 20140513 begin */
 	int32_t index = -1;
-	/* DTS2014051302540 zhuchengming 20140513 end> */
 
 	mutex_lock(s_ctrl->msm_sensor_mutex);
 	CDBG("%s:%d %s cfgtype = %d\n", __func__, __LINE__,
@@ -1192,11 +1132,10 @@ static int msm_sensor_config32(struct msm_sensor_ctrl_t *s_ctrl,
 		conf_array.size = conf_array32.size;
 		conf_array.reg_setting = compat_ptr(conf_array32.reg_setting);
 
-		if (!conf_array.size) {
-			/* < DTS2014042408688 yanzhipeng 20140425 begin */
+		if (!conf_array.size ||
+				conf_array.size > I2C_REG_DATA_MAX) {
 			pr_err("%s:%d conf_array.size = 0\n", __func__, __LINE__);
 			//rc = -EFAULT;
-			/* < DTS2014042408688 yanzhipeng 20140425 end */
 			break;
 		}
 
@@ -1222,21 +1161,13 @@ static int msm_sensor_config32(struct msm_sensor_ctrl_t *s_ctrl,
 		rc = s_ctrl->sensor_i2c_client->i2c_func_tbl->
 			i2c_write_table(s_ctrl->sensor_i2c_client,
 			&conf_array);
-		/* < DTS2015082502414 wangqiaoli/w00345499 20150825 begin*/
-		/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
-		/* < DTS2014081209165 Zhangbo 00166742 20140812 begin */
 #ifdef CONFIG_HUAWEI_DSM
 			//move DSM_CAMERA_I2C_ERR to msm_cci
 #endif
-		/* DTS2014081209165 Zhangbo 00166742 20140812 end > */
-		/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-		/* DTS2015082502414 wangqiaoli/w00345499 20150825 end>*/
 
 		kfree(reg_setting);
 		break;
 	}
-/* < DTS2014062602041 xianghao 20140626 begin */
-/* < DTS2014070201065 xianghao 20140704 begin */
         case CFG_WRITE_EXPOSURE_DATA: {
             struct msm_camera_i2c_reg_setting32 conf_array32;
             struct msm_camera_i2c_reg_setting conf_array;
@@ -1263,7 +1194,8 @@ static int msm_sensor_config32(struct msm_sensor_ctrl_t *s_ctrl,
             conf_array.size = conf_array32.size;
             conf_array.reg_setting = compat_ptr(conf_array32.reg_setting);
 
-            if (!conf_array.size) {
+            if (!conf_array.size ||
+					conf_array.size > I2C_REG_DATA_MAX) {
                  pr_err("%s:%d failed\n", __func__, __LINE__);
                  break;
             }
@@ -1297,15 +1229,9 @@ static int msm_sensor_config32(struct msm_sensor_ctrl_t *s_ctrl,
                          conf_array.data_type);
                 }
             }
-		/* < DTS2015082502414 wangqiaoli/w00345499 20150825 begin*/
-		/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
-		/* < DTS2014081209165 Zhangbo 00166742 20140812 begin */
 #ifdef CONFIG_HUAWEI_DSM
 			//move DSM_CAMERA_I2C_ERR to msm_cci
 #endif
-		/* DTS2014081209165 Zhangbo 00166742 20140812 end > */
-		/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-		/* DTS2015082502414 wangqiaoli/w00345499 20150825 end>*/
             if (conf_array.delay > 20)
                 msleep(conf_array.delay);
             else if (conf_array.delay)
@@ -1315,8 +1241,6 @@ static int msm_sensor_config32(struct msm_sensor_ctrl_t *s_ctrl,
             kfree(reg_setting);
             break;
         }
-/* DTS2014070201065 xianghao 20140704 end > */
-/* DTS2014062602041 xianghao 20140626 end > */
 	case CFG_SLAVE_READ_I2C: {
 		struct msm_camera_i2c_read_config read_config;
 		uint16_t local_data = 0;
@@ -1392,7 +1316,8 @@ static int msm_sensor_config32(struct msm_sensor_ctrl_t *s_ctrl,
 		conf_array.size = conf_array32.size;
 		conf_array.reg_setting = compat_ptr(conf_array32.reg_setting);
 
-		if (!conf_array.size) {
+		if (!conf_array.size ||
+				conf_array.size > I2C_REG_DATA_MAX) {
 			pr_err("%s:%d failed\n", __func__, __LINE__);
 			rc = -EFAULT;
 			break;
@@ -1455,15 +1380,11 @@ static int msm_sensor_config32(struct msm_sensor_ctrl_t *s_ctrl,
 			rc = -EFAULT;
 			break;
 		}
-		/*< DTS2014103002530 tangying/2059825 20141030 begin*/
 		/* optimize camera print mipi packet and frame count log*/
 		if(read_times > 0) {
 			pr_info("%s: cancel frm_cnt_work read_times = %d\n",__func__,read_times);
 			read_times = 0;
 			cancel_delayed_work_sync(&s_ctrl->frm_cnt_work);
-		/* < DTS2015082502414 wangqiaoli/w00345499 20150825 begin*/
-		/* < DTS2015042906355 y00294389 20150525 begin */
-		/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 			csi_pkg_count = 0;
 			sensor_frame_dsm_cnt.count = 0;
@@ -1473,10 +1394,6 @@ static int msm_sensor_config32(struct msm_sensor_ctrl_t *s_ctrl,
 			}
 #endif
 		}
-		/*DTS2014103002530 tangying/2059825 20141030 end >*/
-		/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-		/* DTS2015042906355 y00294389 20150525 end > */
-		/* DTS2015082502414 wangqiaoli/w00345499 20150825 end>*/
 		if (s_ctrl->func_tbl->sensor_power_down) {
 			if (s_ctrl->sensordata->misc_regulator)
 				msm_sensor_misc_regulator(s_ctrl, 0);
@@ -1493,24 +1410,14 @@ static int msm_sensor_config32(struct msm_sensor_ctrl_t *s_ctrl,
 		} else {
 			rc = -EFAULT;
 		}
-		/* < DTS2015082502414 wangqiaoli/w00345499 20150825 begin*/
-		/* < DTS2015042906355 y00294389 20150525 begin */
-		/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 			camera_is_closing = 0;
 #endif
-		/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-		/* DTS2015042906355 y00294389 20150525 end > */
-		/* DTS2015082502414 wangqiaoli/w00345499 20150825 end>*/
 		break;
-	/*< DTS2014103002530 tangying/2059825 20141030 begin*/
 	/* optimize camera print mipi packet and frame count log*/
    case CFG_START_FRM_CNT:
        {
            read_times = 0;
-		/* < DTS2015082502414 wangqiaoli/w00345499 20150825 begin*/
-		/* < DTS2015042906355 y00294389 20150525 begin */
-		/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 			csi_pkg_count = 0;
 			sensor_frame_dsm_cnt.count = 0;
@@ -1519,9 +1426,6 @@ static int msm_sensor_config32(struct msm_sensor_ctrl_t *s_ctrl,
 			 sensor_frame_dsm_cnt.sensor_frame_read[i] = 0;
 			}
 #endif
-		/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-		/* DTS2015042906355 y00294389 20150525 end > */
-		/* DTS2015082502414 wangqiaoli/w00345499 20150825 end>*/
            cancel_delayed_work_sync(&s_ctrl->frm_cnt_work);
        
            read_times = HW_PRINT_PACKET_NUM_TIME;
@@ -1533,9 +1437,6 @@ static int msm_sensor_config32(struct msm_sensor_ctrl_t *s_ctrl,
     case CFG_STOP_FRM_CNT:
         {
             read_times = 0;
-		/* < DTS2015082502414 wangqiaoli/w00345499 20150825 begin*/
-		/* < DTS2015042906355 y00294389 20150525 begin */
-		/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 			csi_pkg_count = 0;
 			sensor_frame_dsm_cnt.count = 0;
@@ -1544,14 +1445,10 @@ static int msm_sensor_config32(struct msm_sensor_ctrl_t *s_ctrl,
 			 sensor_frame_dsm_cnt.sensor_frame_read[i] = 0;
 			}
 #endif
-		/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-		/* DTS2015042906355 y00294389 20150525 end > */
-		/* DTS2015082502414 wangqiaoli/w00345499 20150825 end>*/
             cancel_delayed_work_sync(&s_ctrl->frm_cnt_work);
             pr_info("%s:%s stop read frame count work \n",__func__,s_ctrl->sensordata->sensor_name);
         }
         break;
-	/*DTS2014103002530 tangying/2059825 20141030 end >*/
 	case CFG_SET_STOP_STREAM_SETTING: {
 		struct msm_camera_i2c_reg_setting32 stop_setting32;
 		struct msm_camera_i2c_reg_setting *stop_setting =
@@ -1597,8 +1494,6 @@ static int msm_sensor_config32(struct msm_sensor_ctrl_t *s_ctrl,
 		}
 		break;
 	}
-/* <DTS2014051302540 zhuchengming 20140513 begin */
-/* <DTS2015051109283 jiweifeng/jwx206032 20150515 begin */
 	case CFG_SET_OTP_INFO:
 
 		CDBG("%s,%d: CFG_SET_OTP_INFO\n", __func__, __LINE__);
@@ -1616,17 +1511,9 @@ static int msm_sensor_config32(struct msm_sensor_ctrl_t *s_ctrl,
 			rc = otp_function_lists[index].sensor_otp_function(s_ctrl, index);
 			if (rc < 0)
 			{
-		/* < DTS2015082502414 wangqiaoli/w00345499 20150825 begin*/
-		/* < DTS2015042906355 y00294389 20150525 begin */
-		/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
-		/* < DTS2014081209165 Zhangbo 00166742 20140812 begin */
 #ifdef CONFIG_HUAWEI_DSM
 			camera_report_dsm_err_msm_sensor(s_ctrl, DSM_CAMERA_OTP_ERR, rc, NULL);
 #endif
-		/* DTS2014081209165 Zhangbo 00166742 20140812 end > */
-		/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-		/* DTS2015042906355 y00294389 20150525 end > */
-		/* DTS2015082502414 wangqiaoli/w00345499 20150825 end>*/
 				pr_err("%s:%d failed rc %d\n", __func__,
 					__LINE__, rc);
 			}
@@ -1650,15 +1537,9 @@ static int msm_sensor_config32(struct msm_sensor_ctrl_t *s_ctrl,
 	case CFG_SET_AFC_OTP_INFO:
 		rc = msm_sensor_get_afc_otp_info(s_ctrl, argp);
 		break;
-	/* DTS2015051109283 jiweifeng/jwx206032 20150515 end> */	
-    /* DTS2014051302540 zhuchengming 20140513 end> */
-	/* <DTS2015062302165 w00182304  20150623 begin */
-	/* <DTS2015033002251 z00285045 20150413 begin */
 	case CFG_SET_AWB_OTP_INFO:
 		rc = msm_sensor_get_awb_otp_info(s_ctrl, argp);
 		break;
-	/* DTS2015033002251 z00285045 20150413 end> */
-	/* DTS2015062302165 w00182304  20150623 end> */
 
 
 	default:
@@ -1678,9 +1559,7 @@ int msm_sensor_config(struct msm_sensor_ctrl_t *s_ctrl, void __user *argp)
 	int32_t rc = 0;
 	int32_t i = 0;
 
-	/* <DTS2014051302540 zhuchengming 20140513 begin */
 	int32_t index = -1;
-	/* DTS2014051302540 zhuchengming 20140513 end> */
 
 	mutex_lock(s_ctrl->msm_sensor_mutex);
 	CDBG("%s:%d %s cfgtype = %d\n", __func__, __LINE__,
@@ -1753,11 +1632,10 @@ int msm_sensor_config(struct msm_sensor_ctrl_t *s_ctrl, void __user *argp)
 			break;
 		}
 
-		if (!conf_array.size) {
-			/* < DTS2014042408688 yanzhipeng 20140425 begin */
+		if (!conf_array.size ||
+				conf_array.size > I2C_REG_DATA_MAX) {
 			pr_err("%s:%d conf_array.size = 0\n", __func__, __LINE__);
 			//rc = -EFAULT;
-			/* < DTS2014042408688 yanzhipeng 20140425 end */
 			break;
 		}
 
@@ -1780,19 +1658,13 @@ int msm_sensor_config(struct msm_sensor_ctrl_t *s_ctrl, void __user *argp)
 		conf_array.reg_setting = reg_setting;
 		rc = s_ctrl->sensor_i2c_client->i2c_func_tbl->i2c_write_table(
 			s_ctrl->sensor_i2c_client, &conf_array);
-		/* < DTS2014081209165 Zhangbo 00166742 20140812 begin */
-		/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 		//move DSM_CAMERA_I2C_ERR to msm_cci
 #endif
-		/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-		/* DTS2014081209165 Zhangbo 00166742 20140812 end > */
 		kfree(reg_setting);
 		break;
 	}
 
-/* < DTS2014062602041 xianghao 20140626 begin */
-/* < DTS2014070201065 xianghao 20140704 begin */
         case CFG_WRITE_EXPOSURE_DATA: {
             struct msm_camera_i2c_reg_setting conf_array;
             struct msm_camera_i2c_reg_array *reg_setting = NULL;
@@ -1812,7 +1684,8 @@ int msm_sensor_config(struct msm_sensor_ctrl_t *s_ctrl, void __user *argp)
                  break;
             }
 
-            if (!conf_array.size) {
+            if (!conf_array.size ||
+					conf_array.size > I2C_REG_DATA_MAX) {
                  pr_err("%s:%d failed\n", __func__, __LINE__);
                  break;
             }
@@ -1846,15 +1719,9 @@ int msm_sensor_config(struct msm_sensor_ctrl_t *s_ctrl, void __user *argp)
                          conf_array.data_type);
                 }
             }
-		/* < DTS2015042906355 y00294389 20150525 begin */
-		/* < DTS2014081209165 Zhangbo 00166742 20140812 begin */
-		/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 		//move DSM_CAMERA_I2C_ERR to msm_cci
 #endif
-		/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-		/* DTS2014081209165 Zhangbo 00166742 20140812 end > */
-		/* DTS2015042906355 y00294389 20150525 end > */
             if (conf_array.delay > 20)
                 msleep(conf_array.delay);
             else if (conf_array.delay)
@@ -1864,8 +1731,6 @@ int msm_sensor_config(struct msm_sensor_ctrl_t *s_ctrl, void __user *argp)
             kfree(reg_setting);
             break;
         }
-/* DTS2014070201065 xianghao 20140704 end > */
-/* DTS2014062602041 xianghao 20140626 end > */
 
 	case CFG_SLAVE_READ_I2C: {
 		struct msm_camera_i2c_read_config read_config;
@@ -1907,13 +1772,9 @@ int msm_sensor_config(struct msm_sensor_ctrl_t *s_ctrl, void __user *argp)
 				&local_data, read_config.data_type);
 		if (rc < 0) {
 			pr_err("%s:%d: i2c_read failed\n", __func__, __LINE__);
-			/* < DTS2014081209165 Zhangbo 00166742 20140812 begin */
-			/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 			//move DSM_CAMERA_I2C_ERR to msm_cci
 #endif
-			/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-			/* DTS2014081209165 Zhangbo 00166742 20140812 end > */
 			break;
 		}
 		if (copy_to_user(&read_config.data,
@@ -1942,7 +1803,8 @@ int msm_sensor_config(struct msm_sensor_ctrl_t *s_ctrl, void __user *argp)
 			write_config.slave_addr,
 			write_config.conf_array.size);
 
-		if (!write_config.conf_array.size) {
+		if (!write_config.conf_array.size ||
+				write_config.conf_array.size > I2C_SEQ_REG_DATA_MAX) {
 			pr_err("%s:%d failed\n", __func__, __LINE__);
 			rc = -EFAULT;
 			break;
@@ -1999,15 +1861,9 @@ int msm_sensor_config(struct msm_sensor_ctrl_t *s_ctrl, void __user *argp)
 			break;
 		}
 
-        /* < DTS2015042906355 y00294389 20150525 begin */
-		/* < DTS2014081209165 Zhangbo 00166742 20140812 begin */
-		/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 		//move DSM_CAMERA_I2C_ERR to msm_cci
 #endif
-		/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-		/* DTS2014081209165 Zhangbo 00166742 20140812 end > */
-		/* DTS2015042906355 y00294389 20150525 end > */
 		
 		kfree(reg_setting);
 		break;
@@ -2031,11 +1887,13 @@ int msm_sensor_config(struct msm_sensor_ctrl_t *s_ctrl, void __user *argp)
 			break;
 		}
 
-		if (!conf_array.size) {
+		if (!conf_array.size ||
+			conf_array.size > I2C_SEQ_REG_DATA_MAX) {
 			pr_err("%s:%d failed\n", __func__, __LINE__);
 			rc = -EFAULT;
 			break;
 		}
+
 		reg_setting = kzalloc(conf_array.size *
 			(sizeof(struct msm_camera_i2c_seq_reg_array)),
 			GFP_KERNEL);
@@ -2058,15 +1916,9 @@ int msm_sensor_config(struct msm_sensor_ctrl_t *s_ctrl, void __user *argp)
 			i2c_write_seq_table(s_ctrl->sensor_i2c_client,
 			&conf_array);
 
-        /* < DTS2015042906355 y00294389 20150525 begin */
-		/* < DTS2014081209165 Zhangbo 00166742 20140812 begin */
-		/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 		//move DSM_CAMERA_I2C_ERR to msm_cci
 #endif
-		/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-		/* DTS2014081209165 Zhangbo 00166742 20140812 end > */
-		/* DTS2015042906355 y00294389 20150525 end > */
 		
 		kfree(reg_setting);
 		break;
@@ -2106,14 +1958,11 @@ int msm_sensor_config(struct msm_sensor_ctrl_t *s_ctrl, void __user *argp)
 			rc = -EFAULT;
 			break;
 		}
-		/*< DTS2014103002530 tangying/2059825 20141030 begin*/
 		/* optimize camera print mipi packet and frame count log*/
 		if(read_times > 0) {
 			pr_info("%s: cancel frm_cnt_work read_times = %d\n",__func__,read_times);
 			read_times = 0;
 			cancel_delayed_work_sync(&s_ctrl->frm_cnt_work);
-/* < DTS2015042906355 y00294389 20150525 begin */
-/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 			csi_pkg_count = 0;
 			sensor_frame_dsm_cnt.count = 0;
@@ -2122,10 +1971,7 @@ int msm_sensor_config(struct msm_sensor_ctrl_t *s_ctrl, void __user *argp)
 			  sensor_frame_dsm_cnt.sensor_frame_read[i] = 0;
 			}
 #endif
-/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-/* DTS2015042906355 y00294389 20150525 end > */
 		}
-		/*DTS2014103002530 tangying/2059825 20141030 end >*/
 		if (s_ctrl->func_tbl->sensor_power_down) {
 			if (s_ctrl->sensordata->misc_regulator)
 				msm_sensor_misc_regulator(s_ctrl, 0);
@@ -2142,21 +1988,14 @@ int msm_sensor_config(struct msm_sensor_ctrl_t *s_ctrl, void __user *argp)
 		} else {
 			rc = -EFAULT;
 		}
-		/* < DTS2015042906355 y00294389 20150525 begin */
-		/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 		camera_is_closing = 0;
 #endif
-		/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-		/* DTS2015042906355 y00294389 20150525 end > */
 		break;
-	/*< DTS2014103002530 tangying/2059825 20141030 begin*/
 	/* optimize camera print mipi packet and frame count log*/
    case CFG_START_FRM_CNT:
        {
            read_times = 0;
-/* < DTS2015042906355 y00294389 20150525 begin > */
-/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
            csi_pkg_count = 0;
            sensor_frame_dsm_cnt.count = 0;
@@ -2165,8 +2004,6 @@ int msm_sensor_config(struct msm_sensor_ctrl_t *s_ctrl, void __user *argp)
              sensor_frame_dsm_cnt.sensor_frame_read[i] = 0;
            }
 #endif
-/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-/* DTS2015042906355 y00294389 20150525 end > */
            cancel_delayed_work_sync(&s_ctrl->frm_cnt_work);
        
            read_times = HW_PRINT_PACKET_NUM_TIME;
@@ -2178,8 +2015,6 @@ int msm_sensor_config(struct msm_sensor_ctrl_t *s_ctrl, void __user *argp)
     case CFG_STOP_FRM_CNT:
         {
             read_times = 0;
-/* < DTS2015042906355 y00294389 20150525 begin */
-/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
            csi_pkg_count = 0;
            sensor_frame_dsm_cnt.count = 0;
@@ -2188,13 +2023,10 @@ int msm_sensor_config(struct msm_sensor_ctrl_t *s_ctrl, void __user *argp)
              sensor_frame_dsm_cnt.sensor_frame_read[i] = 0;
            }
 #endif
-/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-/* DTS2015042906355 y00294389 20150525 end > */
             cancel_delayed_work_sync(&s_ctrl->frm_cnt_work);
             pr_info("%s:%s stop read frame count work \n",__func__,s_ctrl->sensordata->sensor_name);
         }
         break;
-	/*DTS2014103002530 tangying/2059825 20141030 end >*/
 	case CFG_SET_STOP_STREAM_SETTING: {
 		struct msm_camera_i2c_reg_setting *stop_setting =
 			&s_ctrl->stop_setting;
@@ -2235,8 +2067,6 @@ int msm_sensor_config(struct msm_sensor_ctrl_t *s_ctrl, void __user *argp)
 		break;
 	}
 
-/* <DTS2014051302540 zhuchengming 20140513 begin */
-/* <DTS2015051109283 jiweifeng/jwx206032 20150515 begin */
 	case CFG_SET_OTP_INFO:
 
 		CDBG("%s,%d: CFG_SET_OTP_INFO\n", __func__, __LINE__);
@@ -2254,15 +2084,9 @@ int msm_sensor_config(struct msm_sensor_ctrl_t *s_ctrl, void __user *argp)
 			rc = otp_function_lists[index].sensor_otp_function(s_ctrl, index);
 			if (rc < 0)
 			{
-			    /* < DTS2015042906355 y00294389 20150525 begin */
-				/* < DTS2014081209165 Zhangbo 00166742 20140812 begin */
-				/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 				camera_report_dsm_err_msm_sensor(s_ctrl, DSM_CAMERA_OTP_ERR, rc, NULL);
 #endif
-				/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-				/* DTS2014081209165 Zhangbo 00166742 20140812 end > */
-				/* DTS2015042906355 y00294389 20150525 end > */
 				pr_err("%s:%d failed rc %d\n", __func__,
 					__LINE__, rc);
 			}
@@ -2286,17 +2110,11 @@ int msm_sensor_config(struct msm_sensor_ctrl_t *s_ctrl, void __user *argp)
 	case CFG_SET_AFC_OTP_INFO:
 		rc = msm_sensor_get_afc_otp_info(s_ctrl, argp);
 		break;
-	/* DTS2015051109283 jiweifeng/jwx206032 20150515 end> */
 	
-	/* < DTS2015042906355 y00294389 20150515 begin */	
-	/* <DTS2015033002251 z00285045 20150413 begin */
 	case CFG_SET_AWB_OTP_INFO:
 		rc = msm_sensor_get_awb_otp_info(s_ctrl, argp);
 		break;
-	/* DTS2015033002251 z00285045 20150413 end> */
-	/* DTS2015042906355 y00294389 20150515 end > */
 	
-    /* DTS2014051302540 zhuchengming 20140513 end> */
 	default:
 		rc = -EFAULT;
 		break;
@@ -2345,9 +2163,6 @@ static int msm_sensor_v4l2_enum_fmt(struct v4l2_subdev *sd,
 	return 0;
 }
 
-/* < DTS2015042906355 y00294389 20150525 begin */
-/* < DTS2014081209165 Zhangbo 00166742 20140812 begin */
-/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 void camera_report_dsm_err_msm_sensor(struct msm_sensor_ctrl_t *s_ctrl, int type, int err_num , const char* str)
 {
@@ -2408,9 +2223,6 @@ void camera_report_dsm_err_msm_sensor(struct msm_sensor_ctrl_t *s_ctrl, int type
 	return ;
 }
 #endif
-/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-/* DTS2014081209165 Zhangbo 00166742 20140812 end > */
-/* DTS2015042906355 y00294389 20150525 end > */
 
 static struct v4l2_subdev_core_ops msm_sensor_subdev_core_ops = {
 	.ioctl = msm_sensor_subdev_ioctl,
@@ -2434,10 +2246,8 @@ static struct msm_sensor_fn_t msm_sensor_func_tbl = {
 	.sensor_power_up = msm_sensor_power_up,
 	.sensor_power_down = msm_sensor_power_down,
 	.sensor_match_id = msm_sensor_match_id,
-	/*< DTS2014103002530 tangying/2059825 20141030 begin*/
 	/* optimize camera print mipi packet and frame count log*/
 	.sensor_read_framecount = hw_sensor_read_framecount,
-	/*DTS2014103002530 tangying/2059825 20141030 end >*/
 };
 
 static struct msm_camera_i2c_fn_t msm_sensor_cci_func_tbl = {
@@ -2759,10 +2569,8 @@ int32_t msm_sensor_init_default_params(struct msm_sensor_ctrl_t *s_ctrl)
 					sensor_mount_angle / 90) << 8);
 	s_ctrl->msm_sd.sd.entity.flags = mount_pos | MEDIA_ENT_FL_DEFAULT;
 
-	/*< DTS2014103002530 tangying/2059825 20141030 begin*/
 	/* optimize camera print mipi packet and frame count log*/
 	INIT_DELAYED_WORK(&s_ctrl->frm_cnt_work, read_framecount_work_handler);
-	/*DTS2014103002530 tangying/2059825 20141030 end >*/
 
 	return 0;
 

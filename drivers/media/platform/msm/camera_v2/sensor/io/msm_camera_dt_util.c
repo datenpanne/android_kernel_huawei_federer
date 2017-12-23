@@ -1,4 +1,3 @@
-/* < DTS2014112105773 yuwangyang 20141121 begin */
 /* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -560,10 +559,8 @@ int msm_camera_get_dt_power_setting_data(struct device_node *of_node,
 		CDBG("%s power_setting[%d].delay = %d\n", __func__,
 			i, ps[i].delay);
 	}
-	/* <DTS2014101700230 xiongtao/wx217212 20141023 begin*/
 	// move free array memory after get power down setting
 	//kfree(array);
-	/* DTS2014101700230 xiongtao/wx217212 20141023 end>*/
 
 	size = *power_setting_size;
 
@@ -576,9 +573,7 @@ int msm_camera_get_dt_power_setting_data(struct device_node *of_node,
 	if (!power_info->power_down_setting) {
 		pr_err("%s failed %d\n", __func__, __LINE__);
 		rc = -ENOMEM;
-		/* <DTS2014101700230 xiongtao/wx217212 20141023 begin*/
 		goto ERROR2;
-		/* DTS2014101700230 xiongtao/wx217212 20141023 end>*/
 	}
 
 	memcpy(power_info->power_down_setting,
@@ -586,7 +581,6 @@ int msm_camera_get_dt_power_setting_data(struct device_node *of_node,
 
 	power_info->power_down_setting_size = size;
 
-/* <DTS2014101700230 xiongtao/wx217212 20141023 begin*/
     //get dtsi power down setting
 	rc = of_property_read_u32_array(of_node, "qcom,cam-power-down-seq-cfg-val",
 		array, count);
@@ -609,7 +603,6 @@ int msm_camera_get_dt_power_setting_data(struct device_node *of_node,
 		}
 	}
 	kfree(array);
-/* DTS2014101700230 xiongtao/wx217212 20141023 end>*/
 	if (need_reverse) {
 		int c, end = size - 1;
 		struct msm_sensor_power_setting power_down_setting_t;
@@ -960,7 +953,6 @@ int msm_camera_init_gpio_pin_tbl(struct device_node *of_node,
 		rc = 0;
 	}
 
-/* <DTS2014061204421 yangzhenxi/WX221546 20140612 begin */
 	rc = of_property_read_u32(of_node, "qcom,gpio-cam-id", &val);
 	if (rc != -EINVAL) {
 		if (rc < 0) {
@@ -980,8 +972,6 @@ int msm_camera_init_gpio_pin_tbl(struct device_node *of_node,
 			gconf->gpio_num_info->gpio_num[SENSOR_GPIO_CAM_ID], val);
 	} else
 		rc = 0;
-/* <DTS2014061204421 yangzhenxi/WX221546 20140612 end */
-/* <DTS2015072306410 z00285045 20150723 begin */
 	rc = of_property_read_u32(of_node, "qcom,gpio-cam-dvdd-sel", &val);
 	if (rc != -EINVAL) {
 		if (rc < 0) {
@@ -1001,7 +991,6 @@ int msm_camera_init_gpio_pin_tbl(struct device_node *of_node,
 			gconf->gpio_num_info->gpio_num[SENSOR_GPIO_DVDD_SEL], val);
 	} else
 		rc = 0;
-/* DTS2015072306410 z00285045 20150723 end> */
 	rc = of_property_read_u32(of_node, "qcom,gpio-flash-en", &val);
 	if (rc != -EINVAL) {
 		if (rc < 0) {
@@ -1616,4 +1605,3 @@ int msm_camera_power_down(struct msm_camera_power_ctrl_t *ctrl,
 	CDBG("%s exit\n", __func__);
 	return 0;
 }
-/* < DTS2014112105773  yuwangyang 20141121 end*/

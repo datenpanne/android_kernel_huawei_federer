@@ -18,22 +18,14 @@
 #include "camera.h"
 #include "msm_cci.h"
 #include "msm_camera_dt_util.h"
-/* < DTS2014042408688 yanzhipeng 20140425 begin */
 #include "misc/app_info.h"
-/* < DTS2014042408688 yanzhipeng 20140425 end */
-/* < DTS2014073004411 yangzhenxi 20140731 begin */
 #include "sensor_otp_common_if.h"
-/* DTS2014073004411 yangzhenxi 20140731 end >*/
 
-/* < DTS2014042602749 yangjiangjun 20140426 begin */
 #ifdef CONFIG_HUAWEI_HW_DEV_DCT
 #include <linux/hw_dev_dec.h>
 #endif
-/* DTS2014042602749 yangjiangjun 20140426 end >*/
 
-/* <DTS2014090305008 xiongtao/wx217212 20140903 begin*/
 #include "./msm.h"
-/* DTS2014090305008 xiongtao/wx217212 20140903 end>*/
 
 /* Logging macro */
 #undef CDBG
@@ -640,7 +632,6 @@ static void msm_sensor_fill_sensor_info(struct msm_sensor_ctrl_t *s_ctrl,
 
 	strlcpy(entity_name, s_ctrl->msm_sd.sd.entity.name, MAX_SENSOR_NAME);
 }
-/* <DTS2014061204421 yangzhenxi/WX221546 20140612 begin */
 /* static function definition */
 int32_t msm_sensor_driver_probe(void *setting,
 	struct msm_sensor_info_t *probed_info, char *entity_name)
@@ -653,16 +644,10 @@ int32_t msm_sensor_driver_probe(void *setting,
 	struct msm_sensor_cam_id_t          *cam_id =NULL;
 
 	unsigned long                        mount_pos = 0;
-/* < DTS2014073004411 yangzhenxi 20140731 begin */
 	int32_t index = -1;
-/*  DTS2014073004411 yangzhenxi 20140731 end> */
 
-	/* < DTS2015052000188 y00294389 20150515 begin */
 	uint32_t                             i = 0;
-	/* DTS2015052000188 y00294389 20150515 end > */
-      /*<DTS2016041103838 yangyale 20160413 begin*/
 	char sensor_module_info[32] = "\0";
-      /* DTS2016041103838 yangyale 20160413 end >*/
 
 	/* Validate input parameters */
 	if (!setting) {
@@ -725,19 +710,13 @@ int32_t msm_sensor_driver_probe(void *setting,
 		slave_info->is_flash_supported = setting32.is_flash_supported;
 		slave_info->sensor_cam_id = compat_ptr(setting32.sensor_cam_id);
 
-		/* < DTS2015052000188 y00294389 20150515 begin */
 		slave_info->dump_reg_num = setting32.dump_reg_num;
 		slave_info->dump_reg_info = compat_ptr(setting32.dump_reg_info);
-		/* DTS2015052000188 y00294389 20150515 end > */
 
-		/*<DTS2015073008870 wangqiaoli/w00345499 20150730 begin*/
 		slave_info->otp_vendor_info = compat_ptr(setting32.otp_vendor_info);
-		/*DTS2015073008870 wangqiaoli/w00345499 20150730 end>*/
-		/*<DTS2016041103838 yangyale 20160413 begin*/
 		strlcpy(slave_info->chromatix_revision, setting32.chromatix_revision,
 			sizeof(slave_info->chromatix_revision));
 		pr_err("chromatix_revision %s", slave_info->chromatix_revision);
-		/* DTS2016041103838 yangyale 20160413 end >*/
 	} else
 #endif
 	{
@@ -759,9 +738,7 @@ int32_t msm_sensor_driver_probe(void *setting,
 	CDBG("size %d", slave_info->power_setting_array.size);
 	CDBG("size down %d", slave_info->power_setting_array.size_down);
 	
-	/* < DTS2015060800780 y00294389 20150608 begin */
 	// remove some code used to print dump reg info
-	/* DTS2015060800780 y00294389 20150608 end > */
 
 	if (slave_info->is_init_params_valid) {
 		CDBG("position %d",
@@ -829,7 +806,6 @@ int32_t msm_sensor_driver_probe(void *setting,
 
 	s_ctrl->sensordata->slave_info = camera_info;
 
-/* <DTS2014072401784 yinxuerui 00285329 20140724 begin */
 	/*For test MCAM_ID*/
 	cam_id = kzalloc(sizeof(*cam_id),GFP_KERNEL);
 	if(!cam_id){
@@ -850,19 +826,13 @@ int32_t msm_sensor_driver_probe(void *setting,
 		camera_info->mcam_id = 2;
 	}
 
-    /* < DTS2015042906355 y00294389 20150515 begin */
-    /* < DTS2015032410610 lichengcheng wx270337 20150324 begin*/
 	/* Fill sensor slave info */
 	camera_info->sensor_slave_addr = slave_info->slave_addr;
 	camera_info->sensor_id_reg_addr =
 		slave_info->sensor_id_info.sensor_id_reg_addr;
 	camera_info->sensor_id = slave_info->sensor_id_info.sensor_id;
     camera_info->sensor_id_data_type = slave_info->sensor_id_info.sensor_id_data_type;
-    /* DTS2015032410610 lichengcheng wx270337 20150324 end >*/
-	/* DTS2015042906355 y00294389 20150515 end > */
 
-	/* < DTS2015052000188 y00294389 20150515 begin */
-	/*<DTS2015073008870 wangqiaoli/w00345499 20150730 begin*/
 	camera_info->dump_reg_info = NULL;
 	//Fill dump reg info
 	if (0 !=  slave_info->dump_reg_num && slave_info->dump_reg_info) {
@@ -880,16 +850,13 @@ int32_t msm_sensor_driver_probe(void *setting,
 			rc = -EFAULT;
 			goto free_dump_info;
 		} else {
-		       /* < DTS2015060800780 y00294389 20150608 begin */
 			for(i = 0; i < (camera_info->dump_reg_num); i++)
 				pr_err("cam_dump_reg: 0x%X\n",
 				camera_info->dump_reg_info[i].addr);
-			/* DTS2015060800780 y00294389 20150608 end > */
 		}
 	} else {
 		pr_err("sensor %s have no dump_reg_info",slave_info->sensor_name);
 	}
-	/* DTS2015052000188 y00294389 20150515 end > */
 
 	camera_info->otp_vendor_info = NULL;
 	if( slave_info->otp_vendor_info ){
@@ -964,12 +931,10 @@ int32_t msm_sensor_driver_probe(void *setting,
 	s_ctrl->sensordata->actuator_name = slave_info->actuator_name;
 	s_ctrl->sensordata->ois_name = slave_info->ois_name;
 
-	/*<DTS2016041103838 yangyale 20160413 begin*/
 	strcpy(sensor_module_info,slave_info->sensor_name);
 	if(slave_info->chromatix_revision){
            strcat(sensor_module_info,slave_info->chromatix_revision);
          }
-       /* DTS2016041103838 yangyale 20160413 end >*/
 	/*
 	 * Update eeporm subdevice Id by input eeprom name
 	 */
@@ -999,7 +964,6 @@ int32_t msm_sensor_driver_probe(void *setting,
 		pr_err("%s power up failed", slave_info->sensor_name);
 		goto free_vendor_info;
 	}
-	/* < DTS2014073004411 yangzhenxi 20140731 begin */
 
 	//set otp info
 	if ( is_exist_otp_function(s_ctrl, &index)){
@@ -1011,10 +975,7 @@ int32_t msm_sensor_driver_probe(void *setting,
 		}
 	}
 	pr_err("%s probe succeeded", slave_info->sensor_name);
-	/*  DTS2014073004411 yangzhenxi 20140731 end> */
 	
-	/* < DTS2014042408688 yanzhipeng 20140425 begin */
-    /*<DTS2016041103838 yangyale 20160413 begin*/
 	if (0 == slave_info->camera_id){
 		rc = app_info_set("camera_main", sensor_module_info);
 	}
@@ -1024,10 +985,7 @@ int32_t msm_sensor_driver_probe(void *setting,
 	else{
 		pr_err("%s app_info_set id err", slave_info->sensor_name);
 	}
-    /* DTS2016041103838 yangyale 20160413 end >*/
-	/* < DTS2014042408688 yanzhipeng 20140425 end */
 
-/* < DTS2014042602749 yangjiangjun 20140426 begin */
 #ifdef CONFIG_HUAWEI_HW_DEV_DCT
 	if(0 == slave_info->camera_id) //detet main senor or sub sensor
 	{
@@ -1042,7 +1000,6 @@ int32_t msm_sensor_driver_probe(void *setting,
 		pr_err("%s set_hw_dev_flag id err", slave_info->sensor_name);
 	}
 #endif
-/* DTS2014042602749 yangjiangjun 20140426 end >*/
 	/*
 	  Set probe succeeded flag to 1 so that no other camera shall
 	 * probed on this slot
@@ -1087,7 +1044,6 @@ int32_t msm_sensor_driver_probe(void *setting,
 			slave_info->sensor_name);
 		goto free_vendor_info;
 	}
-	/*DTS2015073008870 wangqiaoli/w00345499 20150730 end>*/
 
 	/* Update sensor mount angle and position in media entity flag */
 	mount_pos = s_ctrl->sensordata->sensor_info->position << 16;
@@ -1104,19 +1060,16 @@ int32_t msm_sensor_driver_probe(void *setting,
 
 camera_power_down:
 	s_ctrl->func_tbl->sensor_power_down(s_ctrl);
-/*<DTS2015073008870 wangqiaoli/w00345499 20150730 begin*/
 free_vendor_info:
 	kfree(camera_info->otp_vendor_info);
 	camera_info->otp_vendor_info = NULL;
 free_dump_info:
 	kfree(camera_info->dump_reg_info);
 	camera_info->dump_reg_info=NULL;
-/*DTS2015073008870 wangqiaoli/w00345499 20150730 end>*/
 FREE_CAMID:
 	kfree(cam_id);
 free_camera_info:
 	kfree(camera_info);
-/* <DTS2014072401784 yinxuerui 00285329 20140724 end */
 //FREE_POWER_DOWN_SETTING:
 //	kfree(power_down_setting);
 //FREE_POWER_SETTING:
@@ -1125,7 +1078,6 @@ free_slave_info:
 	kfree(slave_info);
 	return rc;
 }
-/* <DTS2014061204421 yangzhenxi/WX221546 20140612 end */
 
 static int32_t msm_sensor_driver_get_gpio_data(
 	struct msm_camera_sensor_board_info *sensordata,
@@ -1298,7 +1250,6 @@ static int32_t msm_sensor_driver_get_dt_data(struct msm_sensor_ctrl_t *s_ctrl)
 	CDBG("%s qcom,mclk-23880000 = %d\n", __func__,
 		s_ctrl->set_mclk_23880000);
 
-	/*< DTS2014111305646 tangying/205982 20141113 begin*/
 	/*use dtsi get sensor name instead of board id string*/
 	if (of_property_read_string(of_node, "qcom,support-sensor-code",
 			&s_ctrl->support_sensor_code) < 0) {
@@ -1309,7 +1260,6 @@ static int32_t msm_sensor_driver_get_dt_data(struct msm_sensor_ctrl_t *s_ctrl)
     {
         pr_info("%s support-sensor-code = %s\n", __func__, s_ctrl->support_sensor_code);
     }
-	/*DTS2014111305646 tangying/205982 20141113 end >*/
 	return rc;
 
 FREE_VREG_DATA:
@@ -1387,7 +1337,6 @@ FREE_SENSOR_I2C_CLIENT:
 	kfree(s_ctrl->sensor_i2c_client);
 	return rc;
 }
-/*< DTS2014111305646 tangying/205982 20141113 begin*/
 /*use dtsi get sensor name instead of board id string*/
 /*
 	get the back camera sensor code and the front camera
@@ -1438,16 +1387,13 @@ int32_t msm_get_probe_sensor_codes(void *setting)
 
 	return rc;
 }
-/*DTS2014111305646 tangying/205982 20141113 end >*/
 
 static int32_t msm_sensor_driver_platform_probe(struct platform_device *pdev)
 {
 	int32_t rc = 0;
 	struct msm_sensor_ctrl_t *s_ctrl = NULL;
-	/* <DTS2014090305008 xiongtao/wx217212 20140903 begin*/
 	struct v4l2_subdev *subdev_flash[1] = {NULL};
 	struct device_node *src_node = NULL;
-	/* DTS2014090305008 xiongtao/wx217212 20140903 end>*/
 
 	/* Create sensor control structure */
 	s_ctrl = kzalloc(sizeof(*s_ctrl), GFP_KERNEL);
@@ -1468,7 +1414,6 @@ static int32_t msm_sensor_driver_platform_probe(struct platform_device *pdev)
 		goto FREE_S_CTRL;
 	}
 
-	/* <DTS2014090305008 xiongtao/wx217212 20140903 begin*/
 	//check flash subdev id, don't care the value of "qcom,led-flash-src" in dtsi.
 	if(s_ctrl->of_node)
 	{
@@ -1490,7 +1435,6 @@ static int32_t msm_sensor_driver_platform_probe(struct platform_device *pdev)
 			}
 		}
 	}
-	/* DTS2014090305008 xiongtao/wx217212 20140903 end>*/
 
 	/* Fill platform device */
 	pdev->id = s_ctrl->id;
@@ -1501,10 +1445,8 @@ static int32_t msm_sensor_driver_platform_probe(struct platform_device *pdev)
 	return rc;
 FREE_S_CTRL:
 	kfree(s_ctrl);
-	/*< DTS2014103002530 tangying/2059825 20141030 begin*/
 	/* optimize camera print mipi packet and frame count log*/
 	s_ctrl = NULL;
-	/*DTS2014103002530 tangying/2059825 20141030 end >*/
 	return rc;
 }
 
@@ -1618,4 +1560,3 @@ module_init(msm_sensor_driver_init);
 module_exit(msm_sensor_driver_exit);
 MODULE_DESCRIPTION("msm_sensor_driver");
 MODULE_LICENSE("GPL v2");
-/* < DTS2014112105773  yuwangyang 20141121 end*/

@@ -1,5 +1,3 @@
-/* < DTS2015071306992 jiweifeng/WX206032 20150713 begin */
-/* < DTS2015121601255 jiweifeng/WX206032 20151216 begin */
 	{
 		"s5k4e1_sunny_132",
 		s5k4e1_otp_func,
@@ -42,5 +40,3 @@
 		OV13850_OFILM_167_BG_RATIO_TYPICAL,
 		false,
 	},
-/* DTS2015121601255 jiweifeng/WX206032 20151216 end > */
-/* DTS2015071306992 jiweifeng/WX206032 20150713 end > */

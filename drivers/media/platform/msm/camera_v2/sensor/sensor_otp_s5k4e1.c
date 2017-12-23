@@ -1,19 +1,4 @@
-/*<DTS2014061904065 Zhangbo 20140619 begin*/
-/* < DTS2014072601546 yanhuiwen/0083550 20140723 begin */
-/************************************************************
-  Copyright (C), 1988-1999, Huawei Tech. Co., Ltd.
-  FileName: sensor_otp_s5k4e1.c
-  Author:  z00166742
-  Version :Initial Draft
-  Date: 2014/06/13
-  Description:    this file contion several functions to detect otp_s5k4e1 properties
-  Version:         Initial Draft
-  History:
-   History        :
-   1.Date        : 2014/06/13
-   Author        : z00166742
-   Modification : Created function
-***********************************************************/
+
 
 //#define HW_CMR_LOGSWC 0   //file log switch set 0 off,default is 1 on
 #define HW_CMR_LOG_TAG "sensor_otp_s5k4e1"
@@ -212,7 +197,6 @@ void s5k4e1_read_otp_regs(struct msm_sensor_ctrl_t * s_ctrl,
 						 + (reg_values[12] <<4) + reg_values[13];
 	current_otp->wb_bg = (reg_values[14] <<12) + (reg_values[15] <<8)
 						 + (reg_values[16] <<4) + reg_values[17];
-	/* < DTS2015071306992 jiweifeng/WX206032 20150713 begin */
 	CMR_LOGW("%s,current_otp.product_year:0x%x",__func__,current_otp->product_year);
 	CMR_LOGW("%s,current_otp.product_month:0x%x",__func__,current_otp->product_month);
 	CMR_LOGW("%s,current_otp.product_date:0x%x",__func__,current_otp->product_date);
@@ -221,7 +205,6 @@ void s5k4e1_read_otp_regs(struct msm_sensor_ctrl_t * s_ctrl,
 	CMR_LOGW("%s,current_otp.version:0x%x\n",__func__,current_otp->version);
 	CMR_LOGW("%s,current_otp.wb_rg:0x%x",__func__,current_otp->wb_rg);
 	CMR_LOGW("%s,current_otp.wb_bg:0x%x",__func__,current_otp->wb_bg);
-	/* DTS2015071306992 jiweifeng/WX206032 20150713 end > */
 	//check if AWB value is valid
 	if ((0 !=  current_otp->wb_rg) && ( 0 !=  current_otp->wb_bg))
 	{
@@ -493,5 +476,3 @@ int s5k4e1_otp_func(struct msm_sensor_ctrl_t *s_ctrl, int index)
 
 	return 0;
 }
-/* DTS2014072601546 yanhuiwen/00283550 20140723 end > */
-/* DTS2014061904065 Zhangbo 20140619 end >*/

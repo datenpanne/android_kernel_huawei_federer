@@ -1,19 +1,4 @@
-/* <DTS2015101602691 z00285045 20151016 begin */
-/*******************************************************************
-Copyright (C), 2014-2015, Huawei Tech. Co., Ltd.
-File name         : sensor_otp_s5k3m2.c
-Author            : z00285045
-Version           : Initial Draft
-Date              : 2015/10/10
-Description       : this file contains the functions to detect and read
-s5k3m2 camera's OTP memory info.
-Function List     :
-s5k3m2_otp_func
-History           :
-1.Date          : 2015/10/10
-Author        : z00285045
-Modification  : Created File
-********************************************************************/
+
 #define HW_CMR_LOG_TAG "sensor_otp_s5k3m2"
 
 #include <linux/hw_camera_common.h>
@@ -832,4 +817,3 @@ int s5k3m2_otp_func(struct msm_sensor_ctrl_t* s_ctrl, int index)
 
 	return 0;
 }
-/* DTS2015101602691 z00285045 20151016 end> */

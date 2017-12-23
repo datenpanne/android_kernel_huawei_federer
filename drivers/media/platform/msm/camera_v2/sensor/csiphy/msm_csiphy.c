@@ -180,13 +180,9 @@ static int msm_csiphy_lane_config(struct csiphy_device *csiphy_dev,
 		msm_camera_io_w(csiphy_params->settle_cnt,
 			csiphybase + csiphy_dev->ctrl_reg->csiphy_reg.
 			mipi_csiphy_lnn_cfg3_addr + 0x40*j);
-		/* < DTS2015042906355 y00294389 20150525 begin */
-        /*< DTS2015032609825 lichengcheng wx270337 20150326 begin*/
         msm_camera_io_w(csiphy_params->settle_cnt,
             csiphybase + csiphy_dev->ctrl_reg->csiphy_reg.
             mipi_csiphy_lnn_cfg4_addr + 0x40*j);
-        /* DTS2015032609825 lichengcheng wx270337 20150326 end >*/
-		/* DTS2015042906355 y00294389 20150525 end > */
 		msm_camera_io_w(csiphy_dev->ctrl_reg->csiphy_reg.
 			mipi_csiphy_interrupt_mask_val, csiphybase +
 			csiphy_dev->ctrl_reg->csiphy_reg.
@@ -646,10 +642,8 @@ static int msm_csiphy_release(struct csiphy_device *csiphy_dev, void *arg)
 	msm_camera_io_w(0x0, csiphy_dev->base +
 		csiphy_dev->ctrl_reg->csiphy_reg.mipi_csiphy_glbl_pwr_cfg_addr);
     
-	/* < DTS2015042906355 y00294389 20150525 begin */
 	if (csiphy_dev->csiphy_sof_freeze == 1)
 		disable_irq(csiphy_dev->irq->start);
-	/* DTS2015042906355 y00294389 20150525 end > */
 
 	if (csiphy_dev->hw_dts_version <= CSIPHY_VERSION_V22) {
 		msm_cam_clk_enable(&csiphy_dev->pdev->dev,

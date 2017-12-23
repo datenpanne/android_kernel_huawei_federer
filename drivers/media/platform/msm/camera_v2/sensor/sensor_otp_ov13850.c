@@ -1,6 +1,3 @@
-/* <DTS2014070903091  jiweifeng/jwx206032 20140708 begin */
-/* < DTS2014072601546 yanhuiwen/0083550 20140723 begin */
-/* < DTS2015121601255 jiweifeng/jwx206032 20151216 begin */
 /************************************************************
   Copyright (C), 1988-1999, Huawei Tech. Co., Ltd.
   FileName: sensor_otp_ov13850.c
@@ -51,14 +48,12 @@ static  uint32_t bg_ratio_typical = 0x257;   //the average of 4 Golden samples' 
 #define OV1385_MODULE_HUAWEI_167_ID      0xA7 //23060167   CHM/ALE/CHERRY
 #define OV13850_OTP_LSC_SIZE             360
 
-/* <DTS2015072108888 z00285045 20150721 begin */
 #define OV13850_MMI_OTP_VCM_FLAG          (1 << 0)
 #define OV13850_MMI_OTP_AWB_FLAG          (1 << 1)
 #define OV13850_MMI_OTP_MODULE_INFO_FLAG  (1 << 2)
 #define OV13850_MMI_OTP_LSC_FLAG          (1 << 3)
 #define OV13850_MMI_OTP_CHECKSUM_FLAG     (1 << 4)
 #define OV13850_MMI_OTP_SUMVAL_FLAG       (1 << 5)
-/* DTS2015072108888 z00285045 20150721 end> */
 
 #define MMI_OTP_FLAG_FAILED_MASK           0x3F
 
@@ -522,7 +517,6 @@ static bool ov13850_otp_read_vcm(struct msm_sensor_ctrl_t *s_ctrl)
 	return true;
 }
 
-/* <DTS2015072108888 z00285045 20150721 begin */
 /*
  **************************************************************************
  * FunctionName: ov13850_get_otp_from_sensor;
@@ -643,7 +637,6 @@ OTP_FAIL:
 	CMR_LOGE("%s ov13850_mmi_otp_flag = 0x%x\n",__func__, s_ctrl->hw_otp_check_flag.mmi_otp_check_flag);
 	return false;
 }
-/* DTS2015072108888 z00285045 20150721 end> */
 /*
  **************************************************************************
  * FunctionName: ov13850_set_otp_to_sensor;
@@ -735,7 +728,4 @@ int ov13850_otp_func(struct msm_sensor_ctrl_t * s_ctrl, int index)
 	CMR_LOGD("%s, the OTP read and set end.\n", __func__);
 	return rc;
 }
-/* DTS2015121601255 jiweifeng/jwx206032 20151216 end > */
-/* DTS2014072601546 yanhuiwen/00283550 20140723 end > */
 
-/* <DTS2014070903091  jiweifeng/jwx206032 20140708 end */

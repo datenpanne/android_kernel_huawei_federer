@@ -99,9 +99,9 @@
         bq24296_otg_supply: bq24296m_charger@6b {
         compatible = "huawei,bq24296m_charger";
         reg = <0x6B>;
-        ti,max_charger_currentmA = <1536>;
+        ti,max_charger_currentmA = <2048>;
         ti,max_charger_voltagemV = <4350>;
-        ti,max_cin_limit_currentmA = <1500>;
+        ti,max_cin_limit_currentmA = <2000>;
         ti,no_ibus_detect;
         gpio_cd = <&msm_gpio 108 0x00>;
         gpio_int = <&msm_gpio 62 0x00>;

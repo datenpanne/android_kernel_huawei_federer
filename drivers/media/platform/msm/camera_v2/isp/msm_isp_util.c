@@ -20,7 +20,6 @@
 #include "msm_isp_stats_util.h"
 #include "msm_camera_io_util.h"
 
-/* < DTS2014111002824 fengsulin 20141110 begin */
 #ifdef CONFIG_HUAWEI_KERNEL
 enum run_mode_enum{
 	RUN_MODE_INIT = 0,
@@ -29,28 +28,19 @@ enum run_mode_enum{
 };
 extern char *saved_command_line;
 #endif
-/* DTS2014111002824 fengsulin 20141110 end > */
-/* < DTS2015042906355 y00294389 20150525 begin */
-/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 #include "msm_camera_dsm.h"
 #endif
-/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-/* DTS2015042906355 y00294389 20150525 end > */
 #define MAX_ISP_V4l2_EVENTS 100
 static DEFINE_MUTEX(bandwidth_mgr_mutex);
 static struct msm_isp_bandwidth_mgr isp_bandwidth_mgr;
 
-/* < DTS2015042906355 y00294389 20150525 begin */
-/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 static uint32_t overflow_cnt = 0;
 static uint32_t overflow_reported_dsm = 0;
 
 void camera_report_dsm_err_msm_isp(struct vfe_device *vfe_dev, int type, int err_num , const char* str);
 #endif
-/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-/* DTS2015042906355 y00294389 20150525 end > */
 static uint64_t msm_isp_cpp_clk_rate;
 
 #define VFE40_8974V2_VERSION 0x1001001A
@@ -707,13 +697,11 @@ static long msm_isp_ioctl_unlocked(struct v4l2_subdev *sd,
 	 * longer time to complete such as start/stop ISP streams
 	 * which blocks until the hardware start/stop streaming
 	 */
-/* < DTS2014111002824 fengsulin 20141110 begin */
 #ifdef CONFIG_HUAWEI_KERNEL
 	pr_debug("%s cmd: %d\n", __func__, _IOC_TYPE(cmd));
 #else
 	ISP_DBG("%s cmd: %d\n", __func__, _IOC_TYPE(cmd));
 #endif
-/* DTS2014111002824 fengsulin 20141110 end > */
 	switch (cmd) {
 	case VIDIOC_MSM_VFE_REG_CFG: {
 		mutex_lock(&vfe_dev->realtime_mutex);
@@ -967,7 +955,8 @@ static int msm_isp_send_hw_cmd(struct vfe_device *vfe_dev,
 	case VFE_READ_DMI_16BIT:
 	case VFE_READ_DMI_32BIT:
 	case VFE_READ_DMI_64BIT: {
-		if (reg_cfg_cmd->cmd_type == VFE_WRITE_DMI_64BIT) {
+		if (reg_cfg_cmd->cmd_type == VFE_WRITE_DMI_64BIT ||
+				reg_cfg_cmd->cmd_type == VFE_READ_DMI_64BIT) {
 			if ((reg_cfg_cmd->u.dmi_info.hi_tbl_offset <=
 				reg_cfg_cmd->u.dmi_info.lo_tbl_offset) ||
 				(reg_cfg_cmd->u.dmi_info.hi_tbl_offset -
@@ -1736,10 +1725,8 @@ void msm_isp_do_tasklet(unsigned long data)
 		irq_status1 = queue_cmd->vfeInterruptStatus1;
 		ts = queue_cmd->ts;
 		spin_unlock_irqrestore(&vfe_dev->tasklet_lock, flags);
-		/* < DTS2015072307695   wangqiaoli/w00345499 20150723 begin */
 		ISP_HW_DBG("%s: status0: 0x%x status1: 0x%x\n",
 			__func__, irq_status0, irq_status1);
-		 /* DTS2015072307695   wangqiaoli/w00345499 20150723 end > */
 		irq_ops->process_reset_irq(vfe_dev,
 			irq_status0, irq_status1);
 		irq_ops->process_halt_irq(vfe_dev,
@@ -1916,20 +1903,13 @@ int msm_isp_close_node(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
 	mutex_unlock(&vfe_dev->core_mutex);
 	mutex_unlock(&vfe_dev->realtime_mutex);
 
-    /* < DTS2015042906355 y00294389 20150525 begin */
-	/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 	overflow_cnt = 0;
 	overflow_reported_dsm = 0;
 #endif
-	/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-	/* DTS2015042906355 y00294389 20150525 end > */
 	return 0;
 }
 
-/* < DTS2014111002824 fengsulin 20141110 begin */
-/* < DTS2015042906355 y00294389 20150525 begin */
-/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 static char camera_isp_dsm_log_buff[MSM_CAMERA_DSM_BUFFER_SIZE] = {0};
 void camera_report_dsm_err_msm_isp(struct vfe_device *vfe_dev, int type, int err_num , const char* str)
@@ -2003,8 +1983,6 @@ void camera_report_dsm_err_msm_isp(struct vfe_device *vfe_dev, int type, int err
 	return ;
 }
 #endif
-/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-/* DTS2015042906355 y00294389 20150525 end > */
 
 #ifdef CONFIG_HUAWEI_KERNEL
 bool huawei_cam_is_factory_mode(void)
@@ -2034,4 +2012,3 @@ bool huawei_cam_is_factory_mode(void)
 	}
 }
 #endif
-/* DTS2014111002824 fengsulin 20141110 end > */

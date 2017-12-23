@@ -1,4 +1,3 @@
-/* < DTS2014112708370 yuwangyang 20141127 begin */
 /* Copyright (c) 2009-2014, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -148,4 +147,3 @@ int32_t msm_led_i2c_flash_create_v4lsubdev(void *data)
 	CDBG("probe success\n");
 	return 0;
 }
-/* < DTS2014112708370 yuwangyang 20141127 end*/

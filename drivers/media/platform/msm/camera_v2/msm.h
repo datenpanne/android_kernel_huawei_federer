@@ -117,7 +117,5 @@ struct vb2_queue *msm_get_stream_vb2q(unsigned int session_id,
 	unsigned int stream_id);
 struct msm_stream *msm_get_stream_from_vb2q(struct vb2_queue *q);
 struct msm_session *msm_session_find(unsigned int session_id);
-/* <DTS2014090305008 xiongtao/wx217212 20140903 begin*/
 void msm_sd_get_subdevs(struct v4l2_subdev *subdev_s[], int max_num, const char *name);
-/* DTS2014090305008 xiongtao/wx217212 20140903 end>*/
 #endif /*_MSM_H */

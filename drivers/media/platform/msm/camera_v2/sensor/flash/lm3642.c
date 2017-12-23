@@ -10,7 +10,6 @@
  * GNU General Public License for more details.
  *
  */
- /* < DTS2013103008314 yangjiangjun 20131030 begin */
 #include <linux/module.h>
 #include <linux/export.h>
 //#include <mach/gpiomux.h>
@@ -19,13 +18,9 @@
 
 #define FLASH_NAME "ti,lm3642"
 
-/* < DTS2015042906355 y00294389 20150525 begin */
-/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 #include "msm_camera_dsm.h"
 #endif
-/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-/* DTS2015042906355 y00294389 20150525 end > */
 
 #define CONFIG_MSMB_CAMERA_DEBUG
 #ifdef CONFIG_MSMB_CAMERA_DEBUG
@@ -59,23 +54,17 @@
 
 #define FLASH_CHIP_ID_MASK 0x07
 #define FLASH_CHIP_ID 0x0
-/*<DTS2015071103112 w00182304 20150711 begin*/
 #define FLASH_CHIP_ID_REG 0x00
-/*DTS2015071103112 w00182304 20150711 end>*/
 #define IVFM_MODE_REGISTER 0x01
 #define EBABLE_BIT_IVFM    0x80
 
 // Default flash high current, 8 corresponds to 843.75mA.
 #define FLASH_HIGH_CURRENT 8 
 
-/* < DTS2015042906355 y00294389 20150525 begin */
-/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 #define LED_SHORT                    (1<<1)
 #define LED_THERMAL_SHUTDOWN         (1<<2)
 #endif
-/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-/* DTS2015042906355 y00294389 20150525 end > */
 
 static struct msm_led_flash_ctrl_t fctrl;
 static struct i2c_driver lm3642_i2c_driver;
@@ -107,9 +96,7 @@ static struct msm_camera_i2c_reg_array lm3642_high_array[] = {
 	// The duration of high flash, 0x05 corresponds to 600ms.
 	//{FLASH_FEATURE_REGISTER, 0x05},
 	{FLASH_FEATURE_REGISTER, 0x0D},//frash ramp time 512us and flash timeout 600ms
-	/* < DTS2015042906355 y00294389 20150525 begin */
 	{ENABLE_REGISTER, MODE_BIT_FLASH | EBABLE_BIT_IVFM},
-	/* DTS2015042906355 y00294389 20150525 end > */
 };
 
 static struct msm_camera_i2c_reg_array lm3642_torch_array[] = {
@@ -161,7 +148,6 @@ static int32_t msm_lm3642_torch_create_classdev(struct device *dev ,
 	return 0;
 };
 
-/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 void camera_report_flash_dsm_err(int flash_reg, int rc_value)
 {
@@ -210,7 +196,6 @@ void camera_report_flash_dsm_err(int flash_reg, int rc_value)
 	return;
 }
 #endif
-/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
 
 /****************************************************************************
 * FunctionName: msm_flash_clear_err_and_unlock;
@@ -239,16 +224,12 @@ int msm_flash_clear_err_and_unlock(struct msm_led_flash_ctrl_t *fctrl){
                 }
 
                 LM3642_DBG("clear err and unlock success:%02x\n",reg_value);
-				/* < DTS2015042906355 y00294389 20150525 begin */
-                /* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
                 if (reg_value != 0)
                 {
                   camera_report_flash_dsm_err(reg_value, rc);
                 }
 #endif
-                /* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-				/* DTS2015042906355 y00294389 20150525 end > */
         }else{
                 pr_err("%s:%d flash_i2c_client NULL\n", __func__, __LINE__);
                 return -EINVAL;
@@ -426,8 +407,6 @@ int msm_torch_lm3642_led_on(struct msm_led_flash_ctrl_t *fctrl)
 	//clear the err and unlock IC, this function must be called before read and write register
 	msm_flash_clear_err_and_unlock(fctrl);
 
-    /* < DTS2015042906355 y00294389 20150525 begin */
-	/* < DTS2014110404271  yangzhenxi 20141104 begin */
 	if (fctrl->flash_i2c_client && fctrl->reg_setting) {
 		rc = fctrl->flash_i2c_client->i2c_func_tbl->i2c_write_table(
 			fctrl->flash_i2c_client,
@@ -439,12 +418,9 @@ int msm_torch_lm3642_led_on(struct msm_led_flash_ctrl_t *fctrl)
 		power_info->gpio_conf->gpio_num_info->
 		gpio_num[SENSOR_GPIO_FL_NOW],
 		GPIO_OUT_HIGH);
-	/* DTS2014110404271  yangzhenxi 20141104 end >*/
-	/* DTS2015042906355 y00294389 20150525 end > */
 
 	return rc;
 }
-/*<DTS2015071103112 w00182304 20150711 begin*/
 /****************************************************************************
 * FunctionName: msm_flash_lm3642_match_id;
 * Description :read id and compared with FLASH_CHIP_ID;
@@ -492,7 +468,6 @@ static int msm_flash_lm3642_match_id(struct msm_led_flash_ctrl_t *fctrl)
 	return rc;
 
 }
-/*DTS2015071103112 w00182304 20150711 end>*/
 static int msm_flash_lm3642_i2c_probe(struct i2c_client *client,
 		const struct i2c_device_id *id)
 {
@@ -504,24 +479,20 @@ static int msm_flash_lm3642_i2c_probe(struct i2c_client *client,
 		pr_err("msm_flash_lm3642_i2c_probe: id is NULL");
 		id = lm3642_i2c_id;
 	}
-	/*<DTS2015071103112 w00182304 20150711 begin*/
 	rc = msm_flash_i2c_probe(client, id);
 	if(rc < 0){
 		pr_err("%s: probe failed\n", __func__);
 		return rc;
 	} else {
-		/* < DTS2014042700594 yangjiangjun 20140427 begin */
 		/*when the flashlight open background, hold power key for more than 10s*/
 		/*would enter HW reset, without turn off the light. So we need to close*/
 		/*light after we reboot*/
 		msm_flash_lm3642_led_off(&fctrl);
-		/* DTS2014042700594 yangjiangjun 20140427 end > */
 	}
 	/*if the high current defined in dts, use the current value*/
 	if(fctrl.flash_high_current){
 		fctrl.reg_setting->high_setting->reg_setting[0].reg_data = fctrl.flash_high_current;
 	}
-	/*DTS2015071103112 w00182304 20150711 end>*/
 
 	flashdata = fctrl.flashdata;
 	power_info = &flashdata->power_info;
@@ -576,8 +547,6 @@ static int msm_flash_lm3642_i2c_remove(struct i2c_client *client)
 	return rc;
 }
 
-/* < DTS2014072407479 Zhangbo 00166742 20140724 begin */
-/* < DTS2014022400464 guoyun 20140224 begin */
 static void lm3624_shutdown(struct i2c_client * client)
 {
     pr_err("[%s],[%d]\n", __func__, __LINE__);
@@ -596,8 +565,6 @@ static struct i2c_driver lm3642_i2c_driver = {
 	},
 	.shutdown = lm3624_shutdown,
 };
-/* DTS2014022400464 guoyun 20140224 end > */
-/* DTS2014072407479 Zhangbo 00166742 20140724 end > */
 
 static int __init msm_flash_lm3642_init(void)
 {
@@ -683,9 +650,7 @@ static struct msm_flash_fn_t lm3642_func_tbl = {
 	.flash_led_low = msm_flash_lm3642_led_low,
 	.flash_led_high = msm_flash_lm3642_led_high,
 	.torch_led_on = msm_torch_lm3642_led_on,
-	/*<DTS2015071103112 w00182304 20150711 begin*/
 	.flash_match_id = msm_flash_lm3642_match_id,
-	/*DTS2015071103112 w00182304 20150711 end>*/
 };
 
 static struct msm_led_flash_ctrl_t fctrl = {
@@ -700,4 +665,3 @@ module_init(msm_flash_lm3642_init);
 module_exit(msm_flash_lm3642_exit);
 MODULE_DESCRIPTION("lm3642 FLASH");
 MODULE_LICENSE("GPL v2");
-/* DTS2014042700594 yangjiangjun 20140427 end > */

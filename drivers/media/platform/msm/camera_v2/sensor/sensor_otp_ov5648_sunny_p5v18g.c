@@ -1,19 +1,4 @@
-/* <DTS2014051302540 zhuchengming 20140513 begin */
-/* < DTS2014072601546 yanhuiwen/0083550 20140723 begin */
-/************************************************************
-  Copyright (C), 1988-1999, Huawei Tech. Co., Ltd.
-  FileName: sensor_otp_ov5648_sunny_p5v18g.c
-  Author:  z00278703
-  Version :Initial Draft
-  Date: 2014/05/14
-  Description:    this file contion several functions to detect otp_ov5648 properties
-  Version:         Initial Draft
-  History:
-   History        :
-   1.Date        : 2014/05/14
-   Author        : z00278703
-   Modification : Created function
-***********************************************************/
+
 
 //#define HW_CMR_LOGSWC 0   //file log switch set 0 off,default is 1 on
 #define HW_CMR_LOG_TAG "sensor_otp_ov5648_sunny_p5v18g"
@@ -576,5 +561,3 @@ int ov5648_sunny_p5v18g_otp_func(struct msm_sensor_ctrl_t * s_ctrl, int index)
 
 	return 0;
 }
-/* DTS2014072601546 yanhuiwen/00283550 20140723 end > */
-/* DTS2014051302540 zhuchengming 20140513 end> */

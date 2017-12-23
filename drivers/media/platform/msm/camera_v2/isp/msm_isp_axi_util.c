@@ -14,26 +14,18 @@
 #include <asm/div64.h>
 #include "msm_isp_util.h"
 #include "msm_isp_axi_util.h"
-/* < DTS2015042906355 y00294389 20150525 begin */
-/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 #include "msm_camera_dsm.h"
 #endif
-/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-/* DTS2015042906355 y00294389 20150525 end > */
 
 #define SRC_TO_INTF(src) \
 	((src < RDI_INTF_0) ? VFE_PIX_0 : \
 	(VFE_RAW_0 + src - RDI_INTF_0))
 
 #define HANDLE_TO_IDX(handle) (handle & 0xFF)
-/* < DTS2015042906355 y00294389 20150525 begin */
-/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 extern void camera_report_dsm_err_msm_isp(struct vfe_device *vfe_dev, int type, int err_num , const char* str);
 #endif
-/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-/* DTS2015042906355 y00294389 20150525 end > */
 
 int msm_isp_axi_create_stream(
 	struct msm_vfe_axi_shared_data *axi_data,
@@ -1605,14 +1597,10 @@ static int msm_isp_start_axi_stream(struct vfe_device *vfe_dev,
 		vfe_dev->axi_data.stream_update = stream_cfg_cmd->num_streams;
 		rc = msm_isp_axi_wait_for_cfg_done(vfe_dev, camif_update);
 	}
-	/* < DTS2015042906355 y00294389 20150525 begin */
-    /* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
     if (rc < 0)
       camera_report_dsm_err_msm_isp(vfe_dev, DSM_CAMERA_ISP_AXI_STREAM_FAIL, rc, "start_axi_stream");
 #endif
-    /* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-    /* DTS2015042906355 y00294389 20150525 end > */
 	
 	return rc;
 }
@@ -1683,13 +1671,9 @@ static int msm_isp_stop_axi_stream(struct vfe_device *vfe_dev,
 		rc = msm_isp_axi_wait_for_cfg_done(vfe_dev, camif_update);
 		if (rc < 0) {
 			pr_err("%s: wait for config done failed\n", __func__);
-			/* < DTS2015042906355 y00294389 20150525 begin */
-			/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 			camera_report_dsm_err_msm_isp(vfe_dev, DSM_CAMERA_ISP_AXI_STREAM_FAIL, rc, "stop_axi_stream");
 #endif
-			/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-			/* DTS2015042906355 y00294389 20150525 end > */
 			for (i = 0; i < stream_cfg_cmd->num_streams; i++) {
 				stream_info = &axi_data->stream_info[
 				HANDLE_TO_IDX(

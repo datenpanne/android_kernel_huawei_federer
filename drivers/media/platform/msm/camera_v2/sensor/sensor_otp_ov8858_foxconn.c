@@ -1,7 +1,3 @@
-/* <DTS2014061204421 yangzhenxi/WX221546 20140612 begin */
-/* < DTS2014072601546 yanhuiwen/0083550 20140723 begin */
-/* <DTS2015073102718  swx234330 20150731 begin */
-/* < DTS2015082602342 l00271394 20150826 begin */
 /************************************************************
   Copyright (C), 1988-2014, Huawei Tech. Co., Ltd.
 FileName: sensor_otp_ov8858_foxconn.c
@@ -41,11 +37,7 @@ Modification : Created function
 #define OV8858_MAX_OTP_LENS_NUM 110
 
 //the value used for vcm effect, maybe modified by others 
-//DTS2015051406944 mashaojing 20150514 begin
-/* < DTS2015081400892  m00187735 20150818 begin */
 #define OV8858_OTP_VCM_OFFSET_VALUE            (200)
-/* DTS2015081400892  m00187735 20150818 end > */
-//DTS2015051406944 mashaojing 20150514 end
 
 //OV8858 has three groups: [1,2,3]
 typedef enum ov8858_groups_count{
@@ -84,11 +76,9 @@ typedef struct ov8858_otp_info {
 	uint8_t lenc[OV8858_MAX_OTP_LENS_NUM];
 }st_ov8858_otp_info;
 
-/* < DTS2014080605039 panfengwei/WX216475 20140806 begin */
 //Golden sensor typical ratio
 static int RG_Ratio_Typical = 0x253;
 static int BG_Ratio_Typical = 0x27F;
-/* DTS2014080605039 panfengwei/WX216475 20140806 end > */
 
 #define OV8858_MMI_OTP_VCM_FLAG                    ( 1 << 0 )
 #define OV8858_MMI_OTP_AWB_FLAG                    ( 1 << 1 )
@@ -159,8 +149,6 @@ int32_t ov8858_otp_read_i2c(struct msm_sensor_ctrl_t *s_ctrl,uint32_t addr, uint
 
 	return rc;
 }
-/* < DTS2014073004411 yangzhenxi 20140731 begin */
-/* pick from DTS2014072601459*/
 /********************************************************************************************
 * To avoid OTP memory access timing conflict,before doing OTP read/write,register 0x5002[3] 
 * must be set to ¡°0¡±. After OTP memory access,set register 0x5002[3] back to ¡°1¡±.
@@ -196,7 +184,6 @@ int32_t ov8858_otp_disable_DPC(struct msm_sensor_ctrl_t *s_ctrl)
 	
 	return rc;
 }
-/* DTS2014073004411 yangzhenxi 20140731 end >*/
 
 /****************************************************************************
 // index: index of otp group will be checked: (1, 2, 3)
@@ -252,9 +239,7 @@ int32_t check_otp_group_index(struct msm_sensor_ctrl_t *s_ctrl, int index, uint1
 	}
 	else
 	{
-		/* < DTS2014073004411 yangzhenxi 20140731 begin */
         	pr_info("%s:%d data = %d\n",__func__,__LINE__, data);
-		/* DTS2014073004411 yangzhenxi 20140731 end >*/
 		//select group
 		switch(index)
 		{
@@ -516,9 +501,7 @@ int32_t ov8858_read_otp_data(struct msm_sensor_ctrl_t *s_ctrl, uint16_t *hw_otp_
 
 	*hw_otp_check = 0x0F;
  
-	/* < DTS2014073004411 yangzhenxi 20140731 begin */
 	ov8858_otp_disable_DPC(s_ctrl);
-	/* DTS2014073004411 yangzhenxi 20140731 end >*/
 	//read awb otp data
 	ret = ov8858_read_group_data(s_ctrl,AWB_OTP);
 	if(ret < 0)
@@ -555,9 +538,7 @@ int32_t ov8858_read_otp_data(struct msm_sensor_ctrl_t *s_ctrl, uint16_t *hw_otp_
 	}
 	 ov8858_mmi_otp_flag &= ~OV8858_MMI_OTP_LSC_FLAG;
 
-	/* < DTS2014073004411 yangzhenxi 20140731 begin */
 	ov8858_otp_enable_DPC(s_ctrl);
-	/* DTS2014073004411 yangzhenxi 20140731 end >*/
 	CMR_LOGD("%s: year=%d month=%d day=%d product=%d moduleid=%d rg=%d bg=%d gb_gr=%d vcm_start=%d vcm_end=%d \n", __func__,
 			g_ov8858_otp.production_year,g_ov8858_otp.production_month,g_ov8858_otp.production_day,g_ov8858_otp.lens_id,g_ov8858_otp.module_integrator_id,
 			g_ov8858_otp.rg_ratio,g_ov8858_otp.bg_ratio,g_ov8858_otp.gb_gr_ratio,g_ov8858_otp.VCM_start,g_ov8858_otp.VCM_end);
@@ -741,8 +722,4 @@ int ov8858_foxconn_otp_func(struct msm_sensor_ctrl_t *s_ctrl,int index)
 	
 	return rc;
 }
-/* DTS2015082602342 l00271394 20150826 end > */
-/* DTS2015073102718  swx234330 20150731 end >*/
-/* DTS2014072601546 yanhuiwen/00283550 20140723 end > */
-/* <DTS2014061204421 yangzhenxi/WX221546 20140612 end */
 

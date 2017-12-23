@@ -3,7 +3,7 @@
 		compatible = "huawei,hw-dev-detect";
 		reg = <0x0 0x12C>;
 		i2c,touch_panel = <1>;
-		i2c,compass = <1>;
+		i2c,compass = <0>;
 		i2c,g_sensor = <1>;
 		i2c,camera_main = <1>;
 		i2c,camera_slave = <0>;

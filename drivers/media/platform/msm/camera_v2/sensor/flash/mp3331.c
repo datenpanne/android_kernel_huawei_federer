@@ -1,4 +1,3 @@
-/*< DTS2015071103112 w00182304 20150711 begin*/
 /* Copyright (c) 2014, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -483,12 +482,10 @@ static int msm_flash_mp3331_i2c_probe(struct i2c_client *client, const struct i2
         pr_err("%s: msm_flash_i2c_probe fail\n", __func__);
         return rc;
     } else {
-        /* < DTS2014042700594 yangjiangjun 20140427 begin */
         /*when the flashlight open background, hold power key for more than 10s*/
         /*would enter HW reset, without turn off the light. So we need to close*/
         /*light after we reboot*/
         msm_flash_mp3331_led_off(&fctrl);
-        /* DTS2014042700594 yangjiangjun 20140427 end > */
     }
 
     if(fctrl.flash_high_current){
@@ -666,4 +663,3 @@ module_init(msm_flash_mp3331_init);
 module_exit(msm_flash_mp3331_exit);
 MODULE_DESCRIPTION("mp3331 FLASH");
 MODULE_LICENSE("GPL v2");
-/*DTS2015071103112 w00182304 20150711 end>*/

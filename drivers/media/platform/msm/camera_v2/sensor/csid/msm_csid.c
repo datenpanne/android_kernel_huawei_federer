@@ -59,11 +59,9 @@ static struct camera_vreg_t csid_8960_vreg_info[] = {
 static struct v4l2_file_operations msm_csid_v4l2_subdev_fops;
 #endif
 
-/* < DTS2014111002824 fengsulin 20141110 begin */
 #ifdef CONFIG_HUAWEI_KERNEL
 extern bool huawei_cam_is_factory_mode(void);
 #endif
-/* DTS2014111002824 fengsulin 20141110 end > */
 
 static int msm_csid_cid_lut(
 	struct msm_camera_csid_lut_params *csid_lut_params,
@@ -225,8 +223,6 @@ static irqreturn_t msm_csid_irq(int irq_num, void *data)
 	irq = msm_camera_io_r(csid_dev->base +
 		csid_dev->ctrl_reg->csid_reg.csid_irq_status_addr);
 
-/* < DTS2015042906355 y00294389 20150525 begin */
-/* < DTS2015020704871 wangguoying 20150207 begin */
 #ifdef CONFIG_HUAWEI_KERNEL
 	if(huawei_cam_is_factory_mode() || csid_dev->csid_sof_debug == 1)
 	{
@@ -253,8 +249,6 @@ static irqreturn_t msm_csid_irq(int irq_num, void *data)
 		CDBG("%s CSID%d_IRQ_STATUS_ADDR = 0x%x\n",
 			 __func__, csid_dev->pdev->id, irq);
 #endif
-/* DTS2015020704871 wangguoying 20150207 end > */
-/* DTS2015042906355 y00294389 20150525 end > */
 
 	if (irq & (0x1 <<
 		csid_dev->ctrl_reg->csid_reg.csid_rst_done_irq_bitshift))
@@ -281,7 +275,6 @@ static int msm_csid_irq_routine(struct v4l2_subdev *sd, u32 status,
 {
 	struct csid_device *csid_dev = v4l2_get_subdevdata(sd);
 	irqreturn_t ret;
-/* < DTS2014111002824 fengsulin 20141110 begin */
 #ifdef CONFIG_HUAWEI_KERNEL
 	if(huawei_cam_is_factory_mode())
 	{
@@ -294,7 +287,6 @@ static int msm_csid_irq_routine(struct v4l2_subdev *sd, u32 status,
 #else
 	CDBG("%s E\n", __func__);
 #endif
-/* DTS2014111002824 fengsulin 20141110 end > */
 	ret = msm_csid_irq(csid_dev->irq->start, csid_dev);
 	*handled = TRUE;
 	return 0;
@@ -535,8 +527,6 @@ static int msm_csid_release(struct csid_device *csid_dev)
 	return 0;
 }
 
-/* < DTS2014060600229 lwx223669 20140606 begin */
-/*< DTS2014103002530 tangying/2059825 20141030 begin*/
 /* optimize camera print mipi packet and frame count log*/
 static uint32_t csid_read_mipi_count(struct csid_device *csid_dev)
 {
@@ -553,8 +543,6 @@ static uint32_t csid_read_mipi_count(struct csid_device *csid_dev)
 
     return value;
 }
-/*DTS2014103002530 tangying/2059825 20141030 end >*/
-/* DTS2014060600229 lwx223669 20140606 end > */
 static int32_t msm_csid_cmd(struct csid_device *csid_dev, void __user *arg)
 {
 	int rc = 0;
@@ -569,13 +557,9 @@ static int32_t msm_csid_cmd(struct csid_device *csid_dev, void __user *arg)
 	switch (cdata->cfgtype) {
 	case CSID_INIT:
 		rc = msm_csid_init(csid_dev, &cdata->cfg.csid_version);
-		/* < DTS2014060600229 lwx223669 20140606 begin */
-	/*< DTS2014103002530 tangying/2059825 20141030 begin*/
 	/* optimize camera print mipi packet and frame count log*/
-	/*DTS2014103002530 tangying/2059825 20141030 end >*/
 		pr_err("%s CSID_INIT csid version %x, mem_start=%x\n", __func__,cdata->cfg.csid_version,
 			(unsigned int)csid_dev->mem->start);
-		/* DTS2014060600229 lwx223669 20140606 end > */
 		break;
 	case CSID_CFG: {
 		struct msm_camera_csid_params csid_params;
@@ -629,13 +613,9 @@ static int32_t msm_csid_cmd(struct csid_device *csid_dev, void __user *arg)
 		break;
 	}
 	case CSID_RELEASE:
-		/* < DTS2014060600229 lwx223669 20140606 begin */
-	/*< DTS2014103002530 tangying/2059825 20141030 begin*/
 	/* optimize camera print mipi packet and frame count log*/
-	/*DTS2014103002530 tangying/2059825 20141030 end >*/
 		rc = msm_csid_release(csid_dev);
 		pr_err("%s: CSID_RELEASE\n",__func__);
-		/* DTS2014060600229 lwx223669 20140606 end > */
 		break;
 	default:
 		pr_err("%s: %d failed\n", __func__, __LINE__);
@@ -662,10 +642,8 @@ static long msm_csid_subdev_ioctl(struct v4l2_subdev *sd,
 {
 	int rc = -ENOIOCTLCMD;
 	struct csid_device *csid_dev = v4l2_get_subdevdata(sd);
-	/* < DTS2015052000188 y00294389 20150515 begin */
 	uint32_t csid_pkg = 0;
 	int i = 0;
-	/* DTS2015052000188 y00294389 20150515 end > */
 	
 	mutex_lock(&csid_dev->mutex);
 	CDBG("%s:%d id %d\n", __func__, __LINE__, csid_dev->pdev->id);
@@ -811,10 +789,8 @@ static long msm_csid_subdev_ioctl32(struct v4l2_subdev *sd,
 {
 	int rc = -ENOIOCTLCMD;
 	struct csid_device *csid_dev = v4l2_get_subdevdata(sd);
-	/* < DTS2015052000188 y00294389 20150515 begin */
 	uint32_t csid_pkg = 0;
 	int i = 0;
-	/* DTS2015052000188 y00294389 20150515 end > */
 
 	mutex_lock(&csid_dev->mutex);
 	CDBG("%s:%d id %d\n", __func__, __LINE__, csid_dev->pdev->id);
@@ -1109,13 +1085,9 @@ static int csid_probe(struct platform_device *pdev)
 		pr_err("%s Error registering irq ", __func__);
 		goto csid_no_resource;
 	}
-	/* < DTS2014060600229 lwx223669 20140606 begin */
 	/*init work handler*/
-	/*< DTS2014103002530 tangying/2059825 20141030 begin*/
 	/* optimize camera print mipi packet and frame count log*/
 	new_csid_dev->csid_read_mipi_pkg = csid_read_mipi_count;
-	/*DTS2014103002530 tangying/2059825 20141030 end >*/
-	/* DTS2014060600229 lwx223669 20140606 end > */
 
 	if (of_device_is_compatible(new_csid_dev->pdev->dev.of_node,
 		"qcom,csid-v2.0")) {

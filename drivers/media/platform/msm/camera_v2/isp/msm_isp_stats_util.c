@@ -506,12 +506,10 @@ static int msm_isp_start_stats_stream(struct vfe_device *vfe_dev,
 			comp_stats_mask[stream_info->composite_flag-1] |=
 				1 << idx;
 
-		/* < DTS2015072307695   wangqiaoli/w00345499 20150723 begin */
 		ISP_HW_DBG("%s: stats_mask %x %x active streams %d\n",
 			__func__, comp_stats_mask[0],
 			comp_stats_mask[1],
 			stats_data->num_active_stream);
-		/* DTS2015072307695   wangqiaoli/w00345499 20150723 end > */
 	}
 
 	if (vfe_dev->axi_data.src_info[VFE_PIX_0].active) {
@@ -575,12 +573,10 @@ static int msm_isp_stop_stats_stream(struct vfe_device *vfe_dev,
 			comp_stats_mask[stream_info->composite_flag-1] |=
 				1 << idx;
 
-		/* < DTS2015072307695   wangqiaoli/w00345499 20150723 begin */
 		ISP_HW_DBG("%s: stats_mask %x %x active streams %d\n",
 			__func__, comp_stats_mask[0],
 			comp_stats_mask[1],
 			stats_data->num_active_stream);
-		/* DTS2015072307695   wangqiaoli/w00345499 20150723 end > */
 	}
 
 	if (vfe_dev->axi_data.src_info[VFE_PIX_0].active) {

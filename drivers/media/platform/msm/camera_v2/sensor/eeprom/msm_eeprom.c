@@ -17,9 +17,7 @@
 #include "msm_sd.h"
 #include "msm_cci.h"
 #include "msm_eeprom.h"
-/*<DTS2016062703783  wangyi 20160627 begin*/
-#include "msm_hi843_ofilm_pad_eeprom.h"
-/*DTS2016062703783  wangyi 20160627 end>*/
+
 #undef CDBG
 #define CDBG(fmt, args...) pr_debug(fmt, ##args)
 
@@ -261,66 +259,6 @@ static const struct v4l2_subdev_internal_ops msm_eeprom_internal_ops = {
 	.open = msm_eeprom_open,
 	.close = msm_eeprom_close,
 };
-/*<DTS2016062703783  wangyi 20160627 begin*/
-/**
-  * add for hi843 otp read otp info and awb data   QL2010 20160627
-*/
-static int msm_hi843_otp_read(struct msm_eeprom_ctrl_t  *e_ctrl, struct msm_eeprom_memory_map_t  *emap ,  uint8_t  *memptr  )
-{
-	int m = 0;
-	int k = 0;
-	uint32_t addr = 0;
-	int rc =0;
-
-	//initial  sensor
-	for (m = 0; m < sizeof(init_regotp_array) / (sizeof(init_regotp_array[0])); m++){
-		rc = e_ctrl->i2c_client.i2c_func_tbl->i2c_write(&(e_ctrl->i2c_client),
-				init_regotp_array[m].reg_addr, init_regotp_array[m].reg_data, MSM_CAMERA_I2C_WORD_DATA);
-		if (rc < 0) {
-			pr_err("%s: hi843 init  failed\n", __func__);
-			return rc;
-		}
-	}
-	// set to otp mode
-	for (m = 0; m < sizeof(init_otp_array) / sizeof(init_otp_array[0]); m++){
-		rc = e_ctrl->i2c_client.i2c_func_tbl->i2c_write(&(e_ctrl->i2c_client),
-				init_otp_array[m].reg_addr, init_otp_array[m].reg_data, MSM_CAMERA_I2C_BYTE_DATA);
-		mdelay(init_otp_array[m].delay);
-		if (rc < 0) {
-			pr_err("%s: hi843 to otp mode  failed\n", __func__);
-			return rc;
-		}
-	}
-
-	for (addr = emap->mem.addr, k = 0; k < (emap->mem.valid_size); addr++, k++) {
-		rc = e_ctrl->i2c_client.i2c_func_tbl->i2c_write(&(e_ctrl->i2c_client), 0x70A, (addr>>8)&0xff, MSM_CAMERA_I2C_BYTE_DATA);
-		rc |= e_ctrl->i2c_client.i2c_func_tbl->i2c_write(&(e_ctrl->i2c_client), 0x70B, addr & 0xff, MSM_CAMERA_I2C_BYTE_DATA);
-		rc |= e_ctrl->i2c_client.i2c_func_tbl->i2c_write(&(e_ctrl->i2c_client), 0x702, 1, MSM_CAMERA_I2C_BYTE_DATA);
-		rc |= e_ctrl->i2c_client.addr_type = MSM_CAMERA_I2C_WORD_DATA;
-		rc |= e_ctrl->i2c_client.i2c_func_tbl->i2c_read_seq(&(e_ctrl->i2c_client), 0x708, memptr, 1);
-		CDBG("hi843 custom:addr:[0x%04x] value: (0x%x)\n", addr, *memptr);
-		memptr++;  // must
-		if(addr == 0x0234)  //otp info data end
-		{
-                  addr = 0x0c5e ;  //otp awb data begin
-		}
-		if (rc < 0) {
-			pr_err("%s: hi843 read failed\n", __func__);
-			return rc;
-		}
-	}
-
-	//set  to normol mode
-	for (m = 0; m < sizeof(otp_to_norm_mode_array)/sizeof(otp_to_norm_mode_array[0]); m++){
-		rc = e_ctrl->i2c_client.i2c_func_tbl->i2c_write(&(e_ctrl->i2c_client),
-				otp_to_norm_mode_array[m].reg_addr, otp_to_norm_mode_array[m].reg_data, 1);
-		if (rc < 0) {
-			pr_err("%s: to normal  failed\n", __func__);
-			return rc;
-		}
-	}
-	return rc;
-}
 /**
   * read_eeprom_memory() - read map data into buffer
   * @e_ctrl:	eeprom control struct
@@ -389,21 +327,15 @@ static int read_eeprom_memory(struct msm_eeprom_ctrl_t *e_ctrl,
 		}
 
 		if (emap[j].mem.valid_size) {
-            if (strcmp(eb_info->eeprom_name, "hi843_ofilm_pad") == 0) {
-                pr_err("%s: eeprom_name:%s \n", __func__,eb_info->eeprom_name);
-                rc = msm_hi843_otp_read(e_ctrl, &emap[j], memptr);
-            }
-        else{
-			      e_ctrl->i2c_client.addr_type = emap[j].mem.addr_t;
-			      rc = e_ctrl->i2c_client.i2c_func_tbl->i2c_read_seq(
-				   &(e_ctrl->i2c_client), emap[j].mem.addr,
-				   memptr, emap[j].mem.valid_size);
-			      if (rc < 0) {
-				    pr_err("%s: read failed\n", __func__);
-				    return rc;
-			      }
-			      memptr += emap[j].mem.valid_size;
-            }
+			e_ctrl->i2c_client.addr_type = emap[j].mem.addr_t;
+			rc = e_ctrl->i2c_client.i2c_func_tbl->i2c_read_seq(
+				&(e_ctrl->i2c_client), emap[j].mem.addr,
+				memptr, emap[j].mem.valid_size);
+			if (rc < 0) {
+				pr_err("%s: read failed\n", __func__);
+				return rc;
+			}
+			memptr += emap[j].mem.valid_size;
 		}
 		if (emap[j].pageen.valid_size) {
 			e_ctrl->i2c_client.addr_type = emap[j].pageen.addr_t;
@@ -418,7 +350,6 @@ static int read_eeprom_memory(struct msm_eeprom_ctrl_t *e_ctrl,
 	}
 	return rc;
 }
-/*DTS2016062703783  wangyi 20160627 end>*/
 /**
   * msm_eeprom_parse_memory_map() - parse memory map in device node
   * @of:	device node
@@ -1005,15 +936,11 @@ static int eeprom_config_read_cal_data32(struct msm_eeprom_ctrl_t *e_ctrl,
 		cdata.cfg.read_data.num_bytes);
 
 	/* should only be called once.  free kernel resource */
-    /*<DTS2016080910140  yangyongfeng 20160824 begin*/
-    #if 0
 	if (!rc) {
 		kfree(e_ctrl->cal_data.mapdata);
 		kfree(e_ctrl->cal_data.map);
 		memset(&e_ctrl->cal_data, 0, sizeof(e_ctrl->cal_data));
 	}
-    #endif
-    /*<DTS2016080910140  yangyongfeng 20160824 end*/
 	return rc;
 }
 
@@ -1218,10 +1145,8 @@ static int msm_eeprom_platform_probe(struct platform_device *pdev)
 			e_ctrl->cal_data.mapdata[j]);
 
 	e_ctrl->is_supported |= msm_eeprom_match_crc(&e_ctrl->cal_data);
-	/* <DTS2014092901923 ganfan 20140929 begin */
     pr_info("%s: is_supported=%d size=%d \n",__func__,e_ctrl->is_supported,
         e_ctrl->cal_data.num_data);
-	/* DTS2014092901923 ganfan 20140929 end> */
 	rc = msm_camera_power_down(power_info, e_ctrl->eeprom_device_type,
 		&e_ctrl->i2c_client);
 	if (rc) {

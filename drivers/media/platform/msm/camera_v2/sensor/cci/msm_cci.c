@@ -22,26 +22,16 @@
 #include "msm_cci.h"
 #include "msm_cam_cci_hwreg.h"
 #include "msm_camera_io_util.h"
-/* < DTS2015042906355 y00294389 20150525 begin */
-/* < DTS2014121000600 Houzhipeng hwx231787 20141210 begin */
 #ifdef CONFIG_HUAWEI_DSM
 #include "msm_camera_dsm.h"
 #endif
-/* DTS2014121000600 Houzhipeng hwx231787 20141210 end > */
-/* DTS2015042906355 y00294389 20150525 end > */
 
 #define V4L2_IDENT_CCI 50005
 #define CCI_I2C_QUEUE_0_SIZE 64
 #define CCI_I2C_QUEUE_1_SIZE 16
 #define CYCLES_PER_MICRO_SEC_DEFAULT 4915
-/* < DTS2015042906355 y00294389 20150525 begin */
-/* <DTS2014121000964 xurenjie xwx208548 begin */
 #define CCI_MAX_DELAY 20000
-/* DTS2014121000964 xurenjie xwx208548 end> */
-/* < DTS2014092207196 Houzhipeng 20141022 begin */
 #define CCI_TIMEOUT msecs_to_jiffies(900)
-/* DTS2014092207196 Houzhipeng 20141022 end > */
-/* DTS2015042906355 y00294389 20150525 end > */
 
 /* TODO move this somewhere else */
 #define MSM_CCI_DRV_NAME "msm_cci"
@@ -864,8 +854,6 @@ static int32_t msm_cci_release(struct v4l2_subdev *sd)
 	return 0;
 }
 
-/* < DTS2015042906355 y00294389 20150525 begin */
-/* < DTS2014121000600 Houzhipeng hwx231787 20141210 begin */
 #ifdef CONFIG_HUAWEI_DSM
 static char camera_cci_dsm_log_buff[MSM_CAMERA_DSM_BUFFER_SIZE] = {0};
 static int print_cci_info(struct v4l2_subdev *sd, struct msm_camera_cci_ctrl *cci_ctrl)
@@ -908,21 +896,15 @@ static int print_cci_info(struct v4l2_subdev *sd, struct msm_camera_cci_ctrl *cc
 	return len;
 }
 #endif
-/* DTS2014121000600 Houzhipeng hwx231787 20141210 end > */
-/* DTS2015042906355 y00294389 20150525 end > */
 
 
 static int32_t msm_cci_config(struct v4l2_subdev *sd,
 	struct msm_camera_cci_ctrl *cci_ctrl)
 {
 	int32_t rc = 0;
-	/* < DTS2015042906355 y00294389 20150525 begin */
-	/* < DTS2014121000600 Houzhipeng hwx231787 20141210 begin */
 #ifdef CONFIG_HUAWEI_DSM
 	int dsm_rc = 0;
 #endif
-	/* DTS2014121000600 Houzhipeng hwx231787 20141210 end > */
-	/* DTS2015042906355 y00294389 20150525 end > */
 	CDBG("%s line %d cmd %d\n", __func__, __LINE__,
 		cci_ctrl->cmd);
 	switch (cci_ctrl->cmd) {
@@ -944,8 +926,6 @@ static int32_t msm_cci_config(struct v4l2_subdev *sd,
 		rc = -ENOIOCTLCMD;
 	}
 	CDBG("%s line %d rc %d\n", __func__, __LINE__, rc);
-	/* < DTS2015042906355 y00294389 20150525 begin */
-	/* < DTS2014121000600 Houzhipeng hwx231787 20141210 begin */
 #ifdef CONFIG_HUAWEI_DSM
 	if ((rc < 0) && ((MSM_CCI_I2C_READ == cci_ctrl->cmd) || (MSM_CCI_I2C_WRITE == cci_ctrl->cmd)) && (camera_is_closing != 1) && (camera_is_in_probe != 1))
 	{
@@ -958,8 +938,6 @@ static int32_t msm_cci_config(struct v4l2_subdev *sd,
 			pr_err("%s. cci dsm report error\n",__func__);
 	}
 #endif
-	/* DTS2014121000600 Houzhipeng hwx231787 20141210 end > */
-	/* DTS2015042906355 y00294389 20150525 end > */
 	cci_ctrl->status = rc;
 	return rc;
 }

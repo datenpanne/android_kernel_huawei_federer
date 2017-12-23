@@ -32,6 +32,17 @@
 	};
 };
 
+/**************Federer(T2 10) BLSP Configuration Table*******************/
+/*	Device_Tree_Node	GPIO	BLSP		Used	Usage	*/
+/*	i2c_0			6,7	BLSP2_I2C	Yes	Sensor	*/
+/*	i2c_1			2,3	BLSP1_I2C	No	N/A	*/
+/*	i2c_4			14,15	BLSP4_I2C	Yes	Battery	*/
+/*	i2c_5			18,19	BLSP5_I2C	Yes	TP	*/
+/*	i2c_6			22,23	BLSP6_I2C	No	N/A	*/
+/*	spi_1			1,2,3,4	BLSP1_SPI	No	N/A	*/
+/*	spi_5			16~19	BLSP5_SPI	No	N/A	*/
+/*	spi_6			20~23	BLSP6_SPI	No	N/A	*/
+/************************************************************************/
 &tlmm_pinmux {
 	tps65132-en-pin {
 		status = "disabled";

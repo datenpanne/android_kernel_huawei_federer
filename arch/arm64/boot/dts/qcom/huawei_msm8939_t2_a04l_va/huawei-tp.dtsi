@@ -53,9 +53,8 @@
 				cy,vdd-type = <1>;	/* 0:null, 1:gpio, 2:pmu*/
 				cy,vbus-type = <2>;	/* 0:null, 1:gpio, 2:pmu*/
 				cy,vbus-value = <1850000>;
-
 				/*cy,vdd = "vdd";*/
-				cy,vdd-en-gpio = <&msm_gpio 112 0x0>; 
+				cy,vdd-en-gpio = <&msm_gpio 112 0x0>;
 				cy,vbus = "vcc_i2c";
 				/*cy,fw_upgrade_start_ver = <4>;*/
 				cy,hid_desc_register = <1>;

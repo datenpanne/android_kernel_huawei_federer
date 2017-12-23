@@ -1,5 +1,3 @@
-/* <DTS2015073102718  swx234330 20150731 begin */
-/* < DTS2015082602342 l00271394 20150826 begin */
 /************************************************************
   Copyright (C), 2014-2015, Huawei Tech. Co., Ltd.
 FileName: sensor_otp_imx219.c
@@ -57,18 +55,9 @@ static  uint32_t bg_ratio_typical = 0x257;   //the average of 4 Golden samples' 
 #define IMX219_MMI_OTP_LSC_FLAG          (1 << 3)
 
 //the value used for vcm effect, maybe modified by others
-/* < DTS2015051405018 zouqiyang/z00291389 20150514 begin */
-/* < DTS2015062604637 jiweifeng/jwx206032 20150626 begin */
 #define IMX219_LITEON_OTP_VCM_OFFSET_VALUE      80
-/* < DTS2015070100450 zouqiyang/z00291389 201507014 begin */
-/* < DTS2015081400892  m00187735 20150818 begin */
 #define IMX219_OFILM_OTP_VCM_OFFSET_VALUE       (200)
-/* DTS2015081400892  m00187735 20150818 end > */
-/* DTS2015070100450 zouqiyang/z00291389 20150701 end > */
 #define IMX219_OTP_VCM_END_MAX                  1023
-/* DTS2015062604637 jiweifeng/jwx206032 20150626 end > */
-/* DTS2015051405018 zouqiyang/z00291389 20150514 end > */
-/* < DTS2015033002224 jiweifeng/WX206032 20150331 begin */
 typedef enum {
 	SUNNY_MODULE_VENDOR_ID = 1,
 	FOXCONN_MODULE_VENDOR_ID,
@@ -77,10 +66,7 @@ typedef enum {
 	BYD_MODULE_VENDOR_ID,
 	OFILM_MODULE_VENDOR_ID
 }camera_module_vendor_id;
-/* DTS2015033002224 jiweifeng/WX206032 20150331 end > */
-/* < DTS2015062604637 jiweifeng/jwx206032 20150626 begin */
 static uint8_t  imx219_otp_vendor_module = 0xFF;
-/* DTS2015062604637 jiweifeng/jwx206032 20150626 end > */
 static uint16_t imx219_vcm_start = 0;
 static uint16_t imx219_vcm_end   = 0;
 static uint32_t OTPSUMVAL        = 0;
@@ -199,8 +185,6 @@ static bool imx219_read_otp(struct msm_sensor_ctrl_t *s_ctrl,uint16_t i2c_addr,u
 
 	return true;
 }
-/* < DTS2015062604637 jiweifeng/jwx206032 20150626 begin */
-/* < DTS2015033002224 jiweifeng/WX206032 20150331 begin */
 static bool imx219_otp_read_id(struct msm_sensor_ctrl_t *s_ctrl)
 {
 	uint8_t buf[5] = {0};
@@ -226,8 +210,6 @@ static bool imx219_otp_read_id(struct msm_sensor_ctrl_t *s_ctrl)
 		return false;
 	}
 }
-/* DTS2015033002224 jiweifeng/WX206032 20150331 end > */
-/* DTS2015062604637 jiweifeng/jwx206032 20150626 end > */
 
 static bool imx219_otp_read_awb(struct msm_sensor_ctrl_t *s_ctrl)
 {
@@ -257,12 +239,10 @@ static bool imx219_otp_read_awb(struct msm_sensor_ctrl_t *s_ctrl)
 
 	imx219_otp_flag |= IMX219_OTP_AWB_READ;
 
-	/* <DTS2015033002251 z00285045 20150413 begin */
 	s_ctrl->awb_otp_info.RG = awbRG;
 	s_ctrl->awb_otp_info.BG = awbBG;
 	s_ctrl->awb_otp_info.typical_RG = rg_ratio_typical;
 	s_ctrl->awb_otp_info.typical_BG = bg_ratio_typical;
-	/* DTS2015033002251 z00285045 20150413 end> */
 
 	return true;
 }
@@ -340,7 +320,6 @@ static bool imx219_otp_set_lsc(struct msm_sensor_ctrl_t *s_ctrl)
 	return true;
 }
 
-/* < DTS2015062604637 jiweifeng/jwx206032 20150626 begin */
 /****************************************************************************
 * FunctionName: imx219_otp_read_vcm;
 * Description : Get AF motor parameters from OTP.;
@@ -434,7 +413,6 @@ static bool imx219_otp_read_vcm(struct msm_sensor_ctrl_t *s_ctrl)
 
 	return true;
 }
-/* DTS2015062604637 jiweifeng/jwx206032 20150626 end > */
 
 static bool imx219_get_otp_from_sensor(struct msm_sensor_ctrl_t *s_ctrl)
 {
@@ -559,5 +537,3 @@ int imx219_otp_func(struct msm_sensor_ctrl_t * s_ctrl, int index)
 	CMR_LOGI("%s,IMX219 OTP read and set OK.\n", __func__);
 	return rc;
 }
-/* DTS2015082602342 l00271394 20150826 end > */
-/* DTS2015073102718  swx234330 20150731 end >*/

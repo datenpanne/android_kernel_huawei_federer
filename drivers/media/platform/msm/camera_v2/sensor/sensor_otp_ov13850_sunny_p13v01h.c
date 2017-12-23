@@ -1,5 +1,3 @@
-/* <DTS2014070903091  jiweifeng/jwx206032 20140708 begin */
-/* < DTS2014072601546 yanhuiwen/0083550 20140723 begin */
 /************************************************************
   Copyright (C), 1988-1999, Huawei Tech. Co., Ltd.
   FileName: sensor_otp_ov13850_sunny_p13v01h.c
@@ -640,6 +638,4 @@ int ov13850_sunny_p13v01h_otp_func(struct msm_sensor_ctrl_t * s_ctrl, int index)
 	CMR_LOGD("%s, the OTP read and set end.\n", __func__);
 	return rc;
 }
-/* DTS2014072601546 yanhuiwen/00283550 20140723 end > */
 
-/* <DTS2014070903091  jiweifeng/jwx206032 20140708 end */

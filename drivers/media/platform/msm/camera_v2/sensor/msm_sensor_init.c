@@ -18,23 +18,15 @@
 #include "msm_sensor.h"
 #include "msm_sd.h"
 
-/* < DTS2014112105773 yuwangyang 20141121 begin */
 /* Logging macro */
 #undef CDBG
 #define CDBG(fmt, args...) pr_debug(fmt, ##args)
-/* < DTS2014112105773  yuwangyang 20141121 end*/
 
-/* <DTS2015042303156 jwx206032 20150423 begin */
 const char *dt_product_name = NULL;
-/* DTS2015042303156 jwx206032 20150423 end> */
 
-/* < DTS2015042906355 y00294389 20150525 begin */
-/* < DTS2014121000600 Houzhipeng hwx231787 20141210 begin */
 #ifdef CONFIG_HUAWEI_DSM
 int camera_is_in_probe = 0;
 #endif
-/* DTS2014121000600 Houzhipeng hwx231787 20141210 end > */
-/* DTS2015042906355 y00294389 20150525 end > */
 
 static struct msm_sensor_init_t *s_init;
 static struct v4l2_file_operations msm_sensor_init_v4l2_subdev_fops;
@@ -69,7 +61,6 @@ static int msm_sensor_wait_for_probe_done(struct msm_sensor_init_t *s_init)
 	return rc;
 }
 
-/* <DTS2015042303156 jwx206032 20150423 begin */
 /* use dtsi get product name instead of board id string */
 /*
     get the product name used in vendor probe list.
@@ -102,7 +93,6 @@ int32_t msm_get_probe_hw_product_name(void *setting)
 
 	return 0;
 }
-/* DTS2015042303156 jwx206032 20150423 end> */
 
 /* Static function definition */
 static int32_t msm_sensor_driver_cmd(struct msm_sensor_init_t *s_init,
@@ -119,13 +109,9 @@ static int32_t msm_sensor_driver_cmd(struct msm_sensor_init_t *s_init,
 
 	switch (cfg->cfgtype) {
 	case CFG_SINIT_PROBE:
-/* < DTS2015042906355 y00294389 20150525 begin */
-/* < DTS2014121000600 Houzhipeng hwx231787 20141210 begin */
 #ifdef CONFIG_HUAWEI_DSM
 		camera_is_in_probe = 1;
 #endif
-/* DTS2014121000600 Houzhipeng hwx231787 20141210 end > */
-/* DTS2015042906355 y00294389 20150525 end > */
 		mutex_lock(&s_init->imutex);
 		s_init->module_init_status = 0;
 		rc = msm_sensor_driver_probe(cfg->cfg.setting,
@@ -139,31 +125,23 @@ static int32_t msm_sensor_driver_cmd(struct msm_sensor_init_t *s_init,
 	case CFG_SINIT_PROBE_DONE:
 		s_init->module_init_status = 1;
 		wake_up(&s_init->state_wait);
-/* < DTS2015042906355 y00294389 20150525 begin */
-/* < DTS2014121000600 Houzhipeng hwx231787 20141210 begin */
 #ifdef CONFIG_HUAWEI_DSM
 		camera_is_in_probe = 0;
 #endif
-/* DTS2014121000600 Houzhipeng hwx231787 20141210 end > */
-/* DTS2015042906355 y00294389 20150525 end > */
 		break;
 
 	case CFG_SINIT_PROBE_WAIT_DONE:
 		msm_sensor_wait_for_probe_done(s_init);
 		break;
-	/* <DTS2015042303156 jwx206032 20150423 begin */
 	/*use dtsi get sensor name instead of board id string*/
 	case CFG_SINIT_GET_HW_PRODUCT_NAME:
 		rc = msm_get_probe_hw_product_name(cfg->cfg.setting);
 		break;
-	/* DTS2015042303156 jwx206032 20150423 end> */
 
-	/*< DTS2014111305646 tangying/205982 20141113 begin*/
 	/*use dtsi get sensor name instead of board id string*/
 	case CFG_SINIT_GET_SENSOR_CODE_LIST:
 		rc = msm_get_probe_sensor_codes(cfg->cfg.setting);
 		break;
-	/*DTS2014111305646 tangying/205982 20141113 end >*/
 	default:
 		pr_err("default");
 		break;
@@ -195,9 +173,7 @@ static long msm_sensor_init_subdev_ioctl(struct v4l2_subdev *sd,
 		break;
 	}
 
-	/*< DTS2014111305646 tangying/205982 20141113 begin*/
 	return rc;
-	/*DTS2014111305646 tangying/205982 20141113 end >*/
 }
 
 #ifdef CONFIG_COMPAT
@@ -243,7 +219,6 @@ static int __init msm_sensor_init_module(void)
 {
 	int ret = 0;
 
-	/* <DTS2015042303156 jwx206032 20150423 begin */
 	struct device_node	*of_node = NULL;
 
     of_node = of_find_compatible_node(NULL, NULL, "qcom,hw-camera-board-id");
@@ -256,7 +231,6 @@ static int __init msm_sensor_init_module(void)
 	else{
 		pr_info("%s product_name = %s\n", __func__, dt_product_name);
 	}
-	/* DTS2015042303156 jwx206032 20150423 end> */
 
 	/* Allocate memory for msm_sensor_init control structure */
 	s_init = kzalloc(sizeof(struct msm_sensor_init_t), GFP_KERNEL);

@@ -17,12 +17,10 @@
 
 /* #define CONFIG_MSM_ISP_DBG 1 */
 
-/* < DTS2014111002824 fengsulin 20141110 begin */
 #ifdef CONFIG_HUAWEI_KERNEL
 bool huawei_cam_is_factory_mode(void);
 #endif
 
-/* < DTS2015072307695   wangqiaoli/w00345499 20150723 begin */
 /*decrease the num of camera logs on factory software*/
 #ifdef CONFIG_MSM_ISP_DBG
 #define ISP_DBG(fmt, args...) printk(fmt, ##args)
@@ -43,8 +41,6 @@ do{                                 \
 #endif
 #define ISP_DBG(fmt, args...) pr_debug(fmt, ##args)
 #endif
-/* DTS2015072307695   wangqiaoli/w00345499 20150723 end >*/
-/* DTS2014111002824 fengsulin 20141110 end > */
 
 #define ALT_VECTOR_IDX(x) {x = 3 - x; }
 

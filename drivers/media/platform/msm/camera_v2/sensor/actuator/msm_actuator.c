@@ -16,16 +16,10 @@
 #include "msm_sd.h"
 #include "msm_actuator.h"
 #include "msm_cci.h"
-/*<DTS2014060405107 luozhi/wx217218 20140604 begin*/
 #include "hw_camera_log.h"
-/*DTS2014060405107 luozhi/wx217218 20140604 end>*/
-/* < DTS2015042906355 y00294389 20150525 begin */
-/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 #include "msm_camera_dsm.h"
 #endif
-/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-/* DTS2015042906355 y00294389 20150525 end > */
 
 DEFINE_MSM_MUTEX(msm_actuator_mutex);
 
@@ -89,14 +83,12 @@ static void msm_actuator_parse_i2c_params(struct msm_actuator_ctrl_t *a_ctrl,
 	uint32_t size = a_ctrl->reg_tbl_size, i = 0;
 	struct msm_camera_i2c_reg_array *i2c_tbl = a_ctrl->i2c_reg_tbl;
 	CDBG("Enter\n");
-	/*< DTS2014112200999 tangying/205982 20141122 begin*/
 	/*add NULL point check and remove packet_num_work in msm_csid.h*/
 	if(!write_arr || !i2c_tbl)
 	{
 		hw_camera_log_error("write_arr or i2c_tbl is NULL \n");
 		return;
 	}
-	/*DTS2014112200999 tangying/205982 20141122 end >*/
 	for (i = 0; i < size; i++) {
 		/* check that the index into i2c_tbl cannot grow larger that
 		the allocated size of i2c_tbl */
@@ -108,20 +100,15 @@ static void msm_actuator_parse_i2c_params(struct msm_actuator_ctrl_t *a_ctrl,
 				write_arr[i].data_shift) |
 				((hw_dword & write_arr[i].hw_mask) >>
 				write_arr[i].hw_shift);
-				/*<DTS2014060405107 luozhi/wx217218 20140604 begin*/
 				hw_camera_log_debug(" value = %d, next_lens_position=%d \n", value, next_lens_position);
-				/*DTS2014060405107 luozhi/wx217218 20140604 end>*/
 				
 			if (write_arr[i].reg_addr != 0xFFFF) {
 				i2c_byte1 = write_arr[i].reg_addr;
 				i2c_byte2 = value;
 				if (size != (i+1)) {
-					/* < DTS2014072506798 yuguangcai 20140725 begin */
 					//i2c_byte2 = value & 0xFF;
 					i2c_byte2 = (value & 0xFF00) >> 8;
-					/*<DTS2014060405107 luozhi/wx217218 20140604 begin*/
 					hw_camera_log_debug("%s: byte1:0x%x, byte2:0x%x\n",__func__, i2c_byte1, i2c_byte2);
-					/*DTS2014060405107 luozhi/wx217218 20140604 end>*/
 
 					i2c_tbl[a_ctrl->i2c_tbl_index].
 						reg_addr = i2c_byte1;
@@ -134,7 +121,6 @@ static void msm_actuator_parse_i2c_params(struct msm_actuator_ctrl_t *a_ctrl,
 					i2c_byte1 = write_arr[i].reg_addr;
 					//i2c_byte2 = (value & 0xFF00) >> 8;
 					i2c_byte2 = value & 0xFF;
-					/* DTS2014072506798 yuguangcai 20140725 end > */
 				}
 			} else {
 				i2c_byte1 = (value & 0xFF00) >> 8;
@@ -144,17 +130,13 @@ static void msm_actuator_parse_i2c_params(struct msm_actuator_ctrl_t *a_ctrl,
 			i2c_byte1 = write_arr[i].reg_addr;
 			i2c_byte2 = (hw_dword & write_arr[i].hw_mask) >>
 				write_arr[i].hw_shift;
-			/* < DTS2014081508421 yuhaitao 20140823 begin */
 			i2c_tbl[a_ctrl->i2c_tbl_index].reg_addr = i2c_byte1;
 			i2c_tbl[a_ctrl->i2c_tbl_index].reg_data = i2c_byte2;
 			i2c_tbl[a_ctrl->i2c_tbl_index].delay = 0;
 			a_ctrl->i2c_tbl_index++;
 			continue;
-			/* DTS2014081508421 yuhaitao 20140823 end > */
 		}
-		/*<DTS2014060405107 luozhi/wx217218 20140604 begin*/
 		hw_camera_log_debug("i2c_byte1:0x%x, i2c_byte2:0x%x\n", i2c_byte1, i2c_byte2);
-		/*DTS2014060405107 luozhi/wx217218 20140604 end>*/
 		i2c_tbl[a_ctrl->i2c_tbl_index].reg_addr = i2c_byte1;
 		i2c_tbl[a_ctrl->i2c_tbl_index].reg_data = i2c_byte2;
 		i2c_tbl[a_ctrl->i2c_tbl_index].delay = delay;
@@ -347,10 +329,8 @@ static int32_t msm_actuator_move_focus(
 	}
 	curr_lens_pos = a_ctrl->step_position_table[a_ctrl->curr_step_pos];
 	a_ctrl->i2c_tbl_index = 0;
-	/*<DTS2014060405107 luozhi/wx217218 20140604 begin*/
 	hw_camera_log_debug("curr_step_pos=%d, dest_step_pos=%d, curr_lens_pos=%d\n",
 		a_ctrl->curr_step_pos, dest_step_pos, curr_lens_pos);
-	/*DTS2014060405107 luozhi/wx217218 20140604 end>*/
 
 	while (a_ctrl->curr_step_pos != dest_step_pos) {
 		step_boundary =
@@ -791,8 +771,6 @@ static int msm_actuator_init(struct msm_actuator_ctrl_t *a_ctrl)
 	return rc;
 }
 
-/* < DTS2015042906355 y00294389 20150525 begin */
-/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 #ifdef CONFIG_HUAWEI_DSM
 static char camera_actuator_dsm_log_buff[MSM_CAMERA_DSM_BUFFER_SIZE] = {0};
 void camera_report_actuator_dsm_err(struct msm_actuator_ctrl_t *a_ctrl, struct msm_actuator_cfg_data *cfg_data, int type, int err_num)
@@ -870,8 +848,6 @@ void camera_report_actuator_dsm_err(struct msm_actuator_ctrl_t *a_ctrl, struct m
     return;
 }
 #endif
-/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-/* DTS2015042906355 y00294389 20150525 end > */
 
 static int32_t msm_actuator_config(struct msm_actuator_ctrl_t *a_ctrl,
 	void __user *argp)
@@ -886,15 +862,11 @@ static int32_t msm_actuator_config(struct msm_actuator_ctrl_t *a_ctrl,
 	case CFG_ACTUATOR_INIT:
 		rc = msm_actuator_init(a_ctrl);
 		if (rc < 0)
-		/* < DTS2015042906355 y00294389 20150525 begin */
-		/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 		{
 			pr_err("msm_actuator_init failed %d\n", rc);
 #ifdef CONFIG_HUAWEI_DSM
 			camera_report_actuator_dsm_err(a_ctrl, NULL, DSM_CAMERA_ACTUATOR_INIT_FAIL, rc);
 #endif
-		/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-		/* DTS2015042906355 y00294389 20150525 end > */
 		}
 		break;
 	case CFG_GET_ACTUATOR_INFO:
@@ -905,15 +877,11 @@ static int32_t msm_actuator_config(struct msm_actuator_ctrl_t *a_ctrl,
 	case CFG_SET_ACTUATOR_INFO:
 		rc = msm_actuator_set_param(a_ctrl, &cdata->cfg.set_info);
 		if (rc < 0)
-		/* < DTS2015042906355 y00294389 20150525 begin */
-		/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 		{
 			pr_err("init table failed %d\n", rc);
 #ifdef CONFIG_HUAWEI_DSM
 			camera_report_actuator_dsm_err(a_ctrl, NULL, DSM_CAMERA_ACTUATOR_SET_INFO_ERR, rc);
 #endif
-		/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-		/* DTS2015042906355 y00294389 20150525 end > */
 		}
 		break;
 
@@ -928,8 +896,6 @@ static int32_t msm_actuator_config(struct msm_actuator_ctrl_t *a_ctrl,
 		rc = a_ctrl->func_tbl->actuator_move_focus(a_ctrl,
 			&cdata->cfg.move);
 		if (rc < 0)
-		/* < DTS2015042906355 y00294389 20150525 begin */
-		/* < DTS2014111105636 Houzhipeng hwx231787 20141111 begin */
 		{
 			pr_err("move focus failed %d\n", rc);
 #ifdef CONFIG_HUAWEI_DSM
@@ -939,8 +905,6 @@ static int32_t msm_actuator_config(struct msm_actuator_ctrl_t *a_ctrl,
 			}
 #endif
 		}
-		/* DTS2014111105636 Houzhipeng hwx231787 20141111 end > */
-		/* DTS2015042906355 y00294389 20150525 end > */
 		break;
 	case CFG_ACTUATOR_POWERDOWN:
 		rc = msm_actuator_power_down(a_ctrl);
