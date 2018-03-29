@@ -602,14 +602,14 @@
 					<0   20000  0>,
 					<0   45000  0>;
 		qcom,cpr-quotient-adjustment =
-					<0   41   (-124)>, /*NOM + 20mv, TURBO - 60mv	*/
-					<0   93   (-124)>, /*NOM + 45mv, TURBO - 60mv	*/
-					<0   41   (-41)>, /* NOM + 20mv, TURBO - 20mv	*/
-					<0   93   (-41)>, /* NOM + 45mv, TURBO - 20mv	*/
-					<0   41   (-41)>, /* NOM + 20mv, TURBO - 20mv	*/
-					<0   93   (-41)>, /* NOM + 45mv, TURBO - 20mv	*/
-					<0   41   (-41)>, /* NOM + 20mv, TURBO - 20mv	*/
-					<0   93   (-41)>; /* NOM + 45mv, TURBO - 20mv	*/
+			<0   41   (-124)>, /*NOM + 20mv, TURBO - 60mv	*/
+			<0   93   (-124)>, /*NOM + 45mv, TURBO - 60mv	*/
+			<0   41   (-41)>, /* NOM + 20mv, TURBO - 20mv	*/
+			<0   93   (-41)>, /* NOM + 45mv, TURBO - 20mv	*/
+			<0   41   (-41)>, /* NOM + 20mv, TURBO - 20mv	*/
+			<0   93   (-41)>, /* NOM + 45mv, TURBO - 20mv	*/
+			<0   41   (-41)>, /* NOM + 20mv, TURBO - 20mv	*/
+			<0   93   (-41)>; /* NOM + 45mv, TURBO - 20mv	*/
 		qcom,cpr-fuse-min-quot-diff = <0 0 40>;
 		qcom,cpr-min-quot-diff-adjustment =
 					<0 0 40>,
